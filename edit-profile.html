@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>CMS</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+  <link rel="stylesheet" href="css/colorpicker.css" />
+  <link rel="stylesheet" href="css/datepicker.css" />
+  <link rel="stylesheet" href="css/uniform.css" />
+  <link rel="stylesheet" href="css/select2.css" />
+  <link rel="stylesheet" href="css/matrix-style.css" />
+  <link rel="stylesheet" href="css/matrix-media.css" />
+  <link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
+  <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+  <script src="js/jquery.min.js"></script>
+  <script>
+    $(function() {
+      $("#includedContent").load("sidebar.html");
+    });
+    $(function() {
+      $("#includedHeader").load("header.html");
+    });
+  </script>
+</head>
+
+<body>
+
+  <!--Header-part-->
+  <div id="header">
+    <h1><a href="dashboard.html">Matrix Admin</a></h1>
+  </div>
+  <!--close-Header-part-->
+
+  <!--top-Header-menu-->
+  <div id="includedHeader"></div>
+  <!--close-top-serch-->
+
+  <!--sidebar-menu-->
+
+  <div id="includedContent"></div>
+
+  <!--sidebar-menu-->
+
+  <!--close-left-menu-stats-sidebar-->
+
+  <div id="content">
+    <div id="content-header">
+      <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>
+          Home</a> <a href="#" class="tip-bottom">Profile</a>
+      </div>
+      <h1>Profile</h1>
+    </div>
+    <div class="container-fluid">
+      <hr>
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="widget-box">
+            <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+              <h5>View & Edit Profile</h5>
+            </div>
+            <div class="widget-content nopadding">
+              <form action="#" method="get" class="form-horizontal">
+                <div class="control-group">
+                  <label class="control-label">Profile Photo</label>
+                  <div class="controls">
+                    <input type="file" />
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Full Name:</label>
+                  <div class="controls">
+                    <input type="text" class="span11" placeholder="Full Name" />
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Email:</label>
+                  <div class="controls">
+                    <input type="text" class="span11" name="email" id="email" placeholder="Email">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Mobile:</label>
+                  <div class="controls">
+                    <input type="text" class="span11" name="number" id="number" placeholder="Mobile"/>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Address:</label>
+                  <div class="controls">
+                    <input type="text" class="span11" placeholder="Address" />
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">DL Number:</label>
+                  <div class="controls">
+                    <input type="text" class="span11" placeholder="DL Number" />
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Aadhar:</label>
+                  <div class="controls">
+                    <input type="text" class="span11" placeholder="Aadhar" />
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">PAN:</label>
+                  <div class="controls">
+                    <input type="text" class="span11" placeholder="PAN" />
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Badge Number:</label>
+                  <div class="controls">
+                    <input type="text" class="span11" placeholder="Badge Number" />
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Role</label>
+                  <div class="controls">
+                    <label>
+                      <input type="checkbox" name="radios" />
+                      Manager</label>
+                    <label>
+                      <input type="checkbox" name="radios" />
+                      Driver</label>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-success">Update</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!--Footer-part-->
+  <div class="row-fluid">
+    <div id="footer" class="span12"> 2013 &copy; Matrix Admin. Brought to you by <a
+        href="https://themedesigner.in">Themedesigner.in</a> </div>
+  </div>
+  <!--end-Footer-part-->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.ui.custom.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/bootstrap-colorpicker.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <script src="js/jquery.toggle.buttons.js"></script>
+  <script src="js/masked.js"></script>
+  <script src="js/jquery.uniform.js"></script>
+  <script src="js/select2.min.js"></script>
+  <script src="js/matrix.js"></script>
+  <script src="js/matrix.form_common.js"></script>
+  <script src="js/jquery.peity.min.js"></script>
+
+  <script>
+    $('.textarea_editor').wysihtml5();
+  </script>
+</body>
+
+</html>
