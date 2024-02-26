@@ -164,3 +164,7 @@ $(document).ready(function(){
 	
 });
 
+function myBaseURL(){
+	return "https://cms-server.azurewebsites.net/api";
+}
+

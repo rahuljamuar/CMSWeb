@@ -7,13 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
-  <link rel="stylesheet" href="css/colorpicker.css" />
-  <link rel="stylesheet" href="css/datepicker.css" />
+  <link rel="stylesheet" href="css/jquery.gritter.css" />
   <link rel="stylesheet" href="css/uniform.css" />
   <link rel="stylesheet" href="css/select2.css" />
   <link rel="stylesheet" href="css/matrix-style.css" />
   <link rel="stylesheet" href="css/matrix-media.css" />
-  <link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
   <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
   <script src="js/jquery.min.js"></script>
@@ -26,8 +24,9 @@
     });
   </script>
 </head>
-
+<div id="loading" style="display: none;"></div>
 <body>
+  
 
   <!--Header-part-->
   <div id="header">
@@ -73,9 +72,12 @@
                 <div class="control-group">
                   <label class="control-label">Full Name:</label>
                   <div class="controls">
-                    <input type="text" class="span11" placeholder="Full Name" />
+                    <input type="text" class="span11" id="full_name" placeholder="Full Name" />
                   </div>
                 </div>
+                
+                <input type="hidden" class="span11" id="emp_id" />
+                
                 <div class="control-group">
                   <label class="control-label">Email:</label>
                   <div class="controls">
@@ -85,52 +87,53 @@
                 <div class="control-group">
                   <label class="control-label">Mobile:</label>
                   <div class="controls">
-                    <input type="text" class="span11" name="number" id="number" placeholder="Mobile"/>
+                    <input type="text" class="span11" name="number" id="mobile" placeholder="Mobile"/>
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label">Address:</label>
                   <div class="controls">
-                    <input type="text" class="span11" placeholder="Address" />
+                    <input type="text" class="span11" id="address" placeholder="Address" />
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label">DL Number:</label>
                   <div class="controls">
-                    <input type="text" class="span11" placeholder="DL Number" />
+                    <input type="text" class="span11" id="dl_number" placeholder="DL Number" />
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label">Aadhar:</label>
                   <div class="controls">
-                    <input type="text" class="span11" placeholder="Aadhar" />
+                    <input type="text" class="span11" id="aadhar" placeholder="Aadhar" />
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label">PAN:</label>
                   <div class="controls">
-                    <input type="text" class="span11" placeholder="PAN" />
+                    <input type="text" class="span11" id="pan" placeholder="PAN" />
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label">Badge Number:</label>
                   <div class="controls">
-                    <input type="text" class="span11" placeholder="Badge Number" />
+                    <input type="text" class="span11" id="badge_number" placeholder="Badge Number" />
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label">Role</label>
                   <div class="controls">
                     <label>
-                      <input type="checkbox" name="radios" />
+                      <input type="checkbox" id="manager_role" name="role" />
                       Manager</label>
                     <label>
-                      <input type="checkbox" name="radios" />
+                      <input type="checkbox" id="driver_role" name="role"/>
                       Driver</label>
                   </div>
                 </div>
                 <div class="form-actions">
-                  <button type="submit" class="btn btn-success">Update</button>
+                  <button type="button" class="btn btn-info" onclick="updateProfile()">Update</button>
+                  <button type="button" class="btn btn-danger" style="float: right;" onclick="deleteProfile()">Delete</button>
                 </div>
               </form>
             </div>
@@ -147,20 +150,27 @@
   </div>
   <!--end-Footer-part-->
   <script src="js/jquery.min.js"></script>
-  <script src="js/jquery.ui.custom.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/bootstrap-colorpicker.js"></script>
-  <script src="js/bootstrap-datepicker.js"></script>
-  <script src="js/jquery.toggle.buttons.js"></script>
-  <script src="js/masked.js"></script>
+  <script src="js/jquery.gritter.min.js"></script>
   <script src="js/jquery.uniform.js"></script>
   <script src="js/select2.min.js"></script>
+  <script src="js/jquery.validate.js"></script> 
   <script src="js/matrix.js"></script>
-  <script src="js/matrix.form_common.js"></script>
+  <script src="js/matrix.form_validation.js"></script>
   <script src="js/jquery.peity.min.js"></script>
+  <script src="api/profile.js"></script>
 
   <script>
-    $('.textarea_editor').wysihtml5();
+    window.onload = function() {
+      setTimeout(function() {
+        var t = performance.timing;
+        console.log(t.loadEventEnd - t.responseEnd);
+        var parameters = location.search.substring(1).split("&");
+        var temp = parameters[0].split("=");
+        var emp_id = unescape(temp[1]);
+        getAProfile(emp_id);
+      }, 0);
+    }
   </script>
 </body>
 
