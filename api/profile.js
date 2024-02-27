@@ -230,10 +230,16 @@ function getProfilePhoto(emp_id) {
         .then(data => {
             // Handle the data returned by the API
             console.log('API Response:', data);
-            document.getElementById("profile_photo_display_thumbnail").src = data.content;
-            document.getElementById("profile_photo_display_thumbnail").alt = data.file_name;
-            document.getElementById("profile_photo_display").href = data.content;
-            // document.getElementById("profile_photo_display").alt = data.file_name;
+            if(data != 'Photo not found'){
+                document.getElementById("profile_photo_display_thumbnail").src = data.content;
+                document.getElementById("profile_photo_display_thumbnail").alt = data.file_name;
+                document.getElementById("profile_photo_display").href = data.content;
+            }else{
+                document.getElementById("profile_photo_display_thumbnail").src = "/img/user.png";
+                document.getElementById("profile_photo_display_thumbnail").alt = "User";
+                document.getElementById("profile_photo_display").href = "/img/user.png";
+            }
+            
           
             
         })
