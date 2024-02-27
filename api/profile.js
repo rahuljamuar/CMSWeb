@@ -333,7 +333,7 @@ function uploadProfilePhoto(emp_id) {
     var profile_photo =document.getElementById("profile_photo").files[0];
     console.log(profile_photo)
     // Define the URL of the API
-    const apiUrl = baseURL + "/profile/";
+    const apiUrl = baseURL + "/profile/profile_photo";
 
     // Define the data to be sent in the request body
     const formdata = new FormData();
@@ -343,10 +343,12 @@ function uploadProfilePhoto(emp_id) {
 
     // Define the headers for the request
     const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    // headers.append('Content-Type', 'application/json');
     headers.append('email', 'rahuljamuar@hotmail.com')
     headers.append('token', 'test')
-
+    console.log(formdata)
+    // const jsonData = JSON.stringify(formdata);
+    // console.log(jsonData)
     // Define the options for the fetch request
     const requestOptions = {
         method: 'PUT',
