@@ -138,7 +138,7 @@ $(document).ready(function(){
 		
 		if ($('#lightbox').length > 0) {
 			
-			$('#imgbox').html('<img src="' + image_href + '" /><p><i class="icon-remove icon-white"></i></p>');
+			$('#imgbox').html('<img src="' + image_href + '"style="max-height:90%;"/><p><i class="icon-remove icon-white"></i></p>');
 		   	
 			$('#lightbox').slideDown(500);
 		}
@@ -166,5 +166,6 @@ $(document).ready(function(){
 
 function myBaseURL(){
 	return "https://cms-server.azurewebsites.net/api";
+	// return "http://localhost:8080/api";
 }
 

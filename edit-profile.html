@@ -65,9 +65,18 @@
               <form action="#" method="get" class="form-horizontal">
                 <div id="loading" style="display: none;"></div>
                 <div class="control-group">
+                  <div class="controls">
+                  <ul class="thumbnails">
+                    <li class="span1"> <a> <img alt="" id="profile_photo_display_thumbnail"> </a>
+                      <div class="actions"> <a class="lightbox_trigger" style="width:min-content;" id="profile_photo_display"><i class="icon-search"></i></a> </div>
+                    </li>                    
+                  </ul>
+                </div>
+                </div>
+                <div class="control-group">
                   <label class="control-label">Profile Photo</label>
                   <div class="controls">
-                    <input type="file" />
+                    <input type="file" id="profile_photo"/>
                   </div>
                 </div>
                 <div class="control-group">
@@ -170,6 +179,7 @@
         var temp = parameters[0].split("=");
         var emp_id = unescape(temp[1]);
         getAProfile(emp_id);
+        getProfilePhoto(emp_id);
       }, 0);
     }
   </script>
