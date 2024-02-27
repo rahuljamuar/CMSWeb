@@ -138,7 +138,7 @@ $(document).ready(function(){
 		
 		if ($('#lightbox').length > 0) {
 			
-			$('#imgbox').html('<img src="' + image_href + '"style="max-height:90%;"/><p><i class="icon-remove icon-white"></i></p>');
+			$('#imgbox').html('<img src="' + image_href + '"style="max-height:90%; max-width:90%"/><p><i class="icon-remove icon-white"></i></p>');
 		   	
 			$('#lightbox').slideDown(500);
 		}
