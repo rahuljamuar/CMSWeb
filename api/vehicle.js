@@ -54,6 +54,7 @@ function getAllVehicle() {
             })
              
             new DataTable('#vehicle_table', {
+                responsive: true,
                 columns: [
                     { title: 'Vehicle RC' },
                     { title: 'Owner' },
