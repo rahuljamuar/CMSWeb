@@ -173,7 +173,7 @@ $( function() {
   } );
 
 function myBaseURL(){
-	// return "https://cms-server.azurewebsites.net/api";
-	return "http://localhost:8080/api";
+	return "https://cms-server.azurewebsites.net/api";
+	// return "http://localhost:8080/api";
 }
 
