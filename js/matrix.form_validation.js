@@ -3,7 +3,7 @@ $(document).ready(function(){
 	
 	$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
 	
-	$('select').select2();
+	// $('select').select2();
 	
 	// Form Validation
     $("#basic_validate").validate({

@@ -164,8 +164,16 @@ $(document).ready(function(){
 	
 });
 
+
+$( function() {
+    $( ".datepicker" ).datepicker();
+	$( ".datepicker" ).on( "change", function() {
+		$( ".datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+	  });
+  } );
+
 function myBaseURL(){
-	return "https://cms-server.azurewebsites.net/api";
-	// return "http://localhost:8080/api";
+	// return "https://cms-server.azurewebsites.net/api";
+	return "http://localhost:8080/api";
 }
 

@@ -1,8 +1,8 @@
 var baseURL = myBaseURL();
 
-function getAllProfile() {
+function getAllBusiness() {
     // Define the URL of the API
-    const apiUrl = baseURL + "/profile/";
+    const apiUrl = baseURL + "/business/";
 
     
     // Define the headers for the request
@@ -32,24 +32,13 @@ function getAllProfile() {
             var dataSet = [];
             
             for (i = 0; i < count; i++) {
-                var role = "";
                 var current_row = [];
-                var emp_id = encodeURIComponent(data[i]["emp_id"]);
-                emp_id = '<a style="color: blue;" href="edit-profile.html?emp_id=' + emp_id + '">' + data[i]["emp_id"] + '</a>' ;
-                current_row.push(emp_id);
-                current_row.push(data[i]["full_name"]);
-                
-                if(data[i]["is_driver"] && data[i]["is_manager"]){
-                    role = "Manager & Driver";
-                }else if(data[i]["is_driver"]){
-                    role = "Driver";
-                }else if(data[i]["is_manager"]){
-                    role = "Manager";
-                }else{
-                    role = "No role assigned";
-                }
-                current_row.push(role);
-                current_row.push(data[i]["mobile_number"]);
+                var business_id = encodeURIComponent(data[i]["business_id"]);
+                business_id = '<a style="color: blue;" href="edit-business.html?business_id=' + business_id + '">' + data[i]["business_name"] + '</a>' ;
+                current_row.push(business_id);
+                current_row.push(data[i]["per_trip_cost"]);
+                current_row.push(data[i]["driver_id"]);
+                current_row.push(data[i]["vehicle_registration_id"]);
                 dataSet.push(current_row);
             }
             
@@ -63,12 +52,12 @@ function getAllProfile() {
                 r[3] = div3;
             })
              
-            new DataTable('#example', {
+            new DataTable('#business_table', {
                 columns: [
-                    { title: 'Emp ID' },
-                    { title: 'Name' },
-                    { title: 'Role' },
-                    { title: 'Mobile Number' }
+                    { title: 'Business Name' },
+                    { title: 'Per Trip Cost' },
+                    { title: 'Assigned Driver' },
+                    { title: 'Assigned Vehicle' }
                 ],
                 data: dataSet
             });
@@ -81,44 +70,29 @@ function getAllProfile() {
 }
 
 
-function createProfile() {
+function createBusiness() {
     $('#loading').show();
-    var full_name = document.getElementById("full_name").value;
-    var email = document.getElementById("email").value;
-    var mobile = document.getElementById("mobile").value;
-    var address = document.getElementById("address").value;
-    var dl_number = document.getElementById("dl_number").value;
-    var aadhar = document.getElementById("aadhar").value;
-    var pan = document.getElementById("pan").value;
-    var badge_number = document.getElementById("badge_number").value;
-    var manager_role = 0;
-    var driver_role = 0;
-    if (document.getElementById('manager_role').checked) {
-        manager_role = 1;
-    }
-    if (document.getElementById('driver_role').checked) {
-        driver_role = 1;
-    }
+    var business_name = document.getElementById("business_name").value;
+    var registration_date = document.getElementById("registration_date").value;
+    var per_trip_cost = document.getElementById("per_trip_cost").value;
+    var assigned_driver = document.getElementById("assigned_driver").value;
+    var assigned_vehicle = document.getElementById("assigned_vehicle").value;
 
     // Define the URL of the API
-    const apiUrl = baseURL + "/profile/";
+    const apiUrl = baseURL + "/business/";
 
     // Define the data to be sent in the request body
     const requestData = {
-        "full_name": full_name,
-        "mobile_number": mobile,
-        "email_id": email,
-        "full_address": address,
-        "driving_license_no": dl_number,
-        "aadhar": aadhar,
-        "pan": pan,
-        "is_driver": driver_role,
-        "is_manager": manager_role,
-        "badge": badge_number
+        "business_name": business_name,
+        "registration_date": registration_date,
+        "per_trip_cost": per_trip_cost,
+        "driver_id": assigned_driver,
+        "vehicle_registration_id": assigned_vehicle
     };
 
     // Convert the data to JSON format
     const jsonData = JSON.stringify(requestData);
+    console.log(jsonData);
 
     // Define the headers for the request
     const headers = new Headers();
@@ -145,10 +119,6 @@ function createProfile() {
         .then(data => {
             // Handle the data returned by the API
             console.log('API Response:', data);
-            var profile_photo =document.getElementById("profile_photo").files[0];
-            if(profile_photo != null){
-                uploadProfilePhoto(data.emp_id);
-            }
             
             $('#loading').hide();
         })
@@ -159,9 +129,9 @@ function createProfile() {
         });
 }
 
-function getAProfile(emp_id) {
+async function getABusiness(business_id) {
     // Define the URL of the API
-    const apiUrl = baseURL + "/profile/emp_id/" + emp_id;
+    const apiUrl = baseURL + "/business/business_id/" + business_id;
 
     
     // Define the headers for the request
@@ -176,7 +146,7 @@ function getAProfile(emp_id) {
         headers: headers
     };
     // Make the API call using fetch
-    fetch(apiUrl, requestOptions)
+    await fetch(apiUrl, requestOptions)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -186,19 +156,14 @@ function getAProfile(emp_id) {
         .then(data => {
             // Handle the data returned by the API
             console.log('API Response:', data);
-            document.getElementById("emp_id").value = data.emp_id;
-            document.getElementById("full_name").value = data.full_name;
-            document.getElementById("email").value = data.email_id;
-            document.getElementById("mobile").value = data.mobile_number;
-            document.getElementById("address").value = data.full_address;
-            document.getElementById("dl_number").value = data.driving_license_no;
-            document.getElementById("aadhar").value = data.aadhar;
-            document.getElementById("pan").value = data.pan;
-            document.getElementById("badge_number").value = data.badge;
-            $('#manager_role').prop('checked',data.is_manager);
-            $('#driver_role').prop('checked',data.is_driver);
-            $.uniform.update('#manager_role');
-            $.uniform.update('#driver_role');
+            document.getElementById("business_name").value = data.business_name;
+            var registration_date = data.registration_date.toString().split("T");
+            registration_date = registration_date[0];
+            document.getElementById("business_id").value = data.business_id;
+            document.getElementById("registration_date").value = registration_date;
+            document.getElementById("per_trip_cost").value = data.per_trip_cost;
+            document.getElementById("assigned_driver").value = data.driver_id;
+            document.getElementById("assigned_vehicle").value = data.vehicle_registration_id;
             
         })
         .catch(error => {
@@ -208,89 +173,26 @@ function getAProfile(emp_id) {
 
 }
 
-function getProfilePhoto(emp_id) {
-    // Define the URL of the API
-    const apiUrl = baseURL + "/profile/profile_photo/" + emp_id;
-
-    
-    // Define the headers for the request
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('email', 'rahuljamuar@hotmail.com')
-    headers.append('token', 'test')
-
-    // Define the options for the fetch request
-    const requestOptions = {
-        method: 'GET',
-        headers: headers
-    };
-    // Make the API call using fetch
-    fetch(apiUrl, requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); // Parse the JSON returned by the API
-        })
-        .then(data => {
-            // Handle the data returned by the API
-            console.log('API Response:', data);
-            if(data != 'Photo not found'){
-                document.getElementById("profile_photo_display_thumbnail").src = data.content;
-                document.getElementById("profile_photo_display_thumbnail").alt = data.file_name;
-                document.getElementById("profile_photo_display").href = data.content;
-            }else{
-                document.getElementById("profile_photo_display_thumbnail").src = "/img/user.png";
-                document.getElementById("profile_photo_display_thumbnail").alt = "User";
-                document.getElementById("profile_photo_display").href = "/img/user.png";
-            }
-            
-          
-            
-        })
-        .catch(error => {
-            // Handle any errors that occur during the fetch request
-            console.error('There was a problem with the fetch operation:', error);
-        });
-
-}
-
-function updateProfile() {
+function updateBusiness() {
     $('#loading').show();
-    var emp_id = parseInt(document.getElementById("emp_id").value);
-    var full_name = document.getElementById("full_name").value;
-    var email = document.getElementById("email").value;
-    var mobile = document.getElementById("mobile").value;
-    var address = document.getElementById("address").value;
-    var dl_number = document.getElementById("dl_number").value;
-    var aadhar = document.getElementById("aadhar").value;
-    var pan = document.getElementById("pan").value;
-    var badge_number = document.getElementById("badge_number").value;
-    var manager_role = 0;
-    var driver_role = 0;
-    if (document.getElementById('manager_role').checked) {
-        manager_role = 1;
-    }
-    if (document.getElementById('driver_role').checked) {
-        driver_role = 1;
-    }
+    var business_id = document.getElementById("business_id").value;
+    var business_name = document.getElementById("business_name").value;
+    var registration_date = document.getElementById("registration_date").value;
+    var per_trip_cost = document.getElementById("per_trip_cost").value;
+    var assigned_driver = document.getElementById("assigned_driver").value;
+    var assigned_vehicle = document.getElementById("assigned_vehicle").value;
 
     // Define the URL of the API
-    const apiUrl = baseURL + "/profile/";
+    const apiUrl = baseURL + "/business/";
 
     // Define the data to be sent in the request body
     const requestData = {
-        "emp_id": emp_id,
-        "full_name": full_name,
-        "mobile_number": mobile,
-        "email_id": email,
-        "full_address": address,
-        "driving_license_no": dl_number,
-        "aadhar": aadhar,
-        "pan": pan,
-        "is_driver": driver_role,
-        "is_manager": manager_role,
-        "badge": badge_number
+        "business_id": business_id,
+        "business_name": business_name,
+        "registration_date": registration_date,
+        "per_trip_cost": per_trip_cost,
+        "driver_id": assigned_driver,
+        "vehicle_registration_id": assigned_vehicle
     };
     
     // Convert the data to JSON format
@@ -324,13 +226,9 @@ function updateProfile() {
         .then(data => {
             // Handle the data returned by the API
             console.log('API Response:', data);
-            var profile_photo =document.getElementById("profile_photo").files[0];
-            if(profile_photo != null){
-                uploadProfilePhoto(emp_id);
-            }
             $.gritter.add({
-                title:	'Profile Updated',
-                text:	'Profile is updated successfully!',
+                title:	'Business Updated',
+                text:	'Business is updated successfully!',
                 sticky: false
             });
             $('.gritter-item').css('background-color','darkgreen');	
@@ -343,56 +241,95 @@ function updateProfile() {
         });
 }
 
-function uploadProfilePhoto(emp_id) {
-    var profile_photo =document.getElementById("profile_photo").files[0];
-    console.log(profile_photo)
+async function getAllDriver() {
     // Define the URL of the API
-    const apiUrl = baseURL + "/profile/profile_photo";
+    const apiUrl = baseURL + "/profile/driver/";
 
-    // Define the data to be sent in the request body
-    const formdata = new FormData();
-    formdata.append("file_name", profile_photo);
-    formdata.append("emp_id", emp_id);
-
-
+    
     // Define the headers for the request
     const headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
+    headers.append('Content-Type', 'application/json');
     headers.append('email', 'rahuljamuar@hotmail.com')
     headers.append('token', 'test')
-    console.log(formdata)
-    // const jsonData = JSON.stringify(formdata);
-    // console.log(jsonData)
+
     // Define the options for the fetch request
     const requestOptions = {
-        method: 'PUT',
-        headers: headers,
-        body: formdata
+        method: 'GET',
+        headers: headers
     };
-
     // Make the API call using fetch
-    fetch(apiUrl, requestOptions)
+    await fetch(apiUrl, requestOptions)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');                
+                throw new Error('Network response was not ok');
             }
             return response.json(); // Parse the JSON returned by the API
         })
         .then(data => {
             // Handle the data returned by the API
-            console.log('API Response:', data);            
+            console.log('API Response:', data);
+            var count = Object.keys(data).length;
+            console.log(count);            
+            
+            for (i = 0; i < count; i++) {
+                $('#assigned_driver').append( '<option value=' + data[i]["emp_id"] +'>' + data[i]["full_name"] + '</option>' );  
+            }
+            
         })
         .catch(error => {
             // Handle any errors that occur during the fetch request
-            console.error('There was a problem with the fetch operation:', error);            
+            console.error('There was a problem with the fetch operation:', error);
         });
+
 }
 
-function deleteProfile() {
-    $('#loading').show();
-    var emp_id = parseInt(document.getElementById("emp_id").value);
+async function getAllVehicle() {
     // Define the URL of the API
-    const apiUrl = baseURL + "/profile/emp_id/" + emp_id;
+    const apiUrl = baseURL + "/vehicle/";
+
+    
+    // Define the headers for the request
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('email', 'rahuljamuar@hotmail.com')
+    headers.append('token', 'test')
+
+    // Define the options for the fetch request
+    const requestOptions = {
+        method: 'GET',
+        headers: headers
+    };
+    // Make the API call using fetch
+    await fetch(apiUrl, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the JSON returned by the API
+        })
+        .then(data => {
+            // Handle the data returned by the API
+            console.log('API Response:', data);
+            var count = Object.keys(data).length;
+            console.log(count);            
+            
+            for (i = 0; i < count; i++) {
+                $('#assigned_vehicle').append( '<option value=' + data[i]["vehicle_registration_id"] +'>' + data[i]["vehicle_registration_id"] + '</option>' );  
+            }
+            
+        })
+        .catch(error => {
+            // Handle any errors that occur during the fetch request
+            console.error('There was a problem with the fetch operation:', error);
+        });
+
+}
+
+function deleteBusiness() {
+    $('#loading').show();
+    var business_id = parseInt(document.getElementById("business_id").value);
+    // Define the URL of the API
+    const apiUrl = baseURL + "/business/business_id/" + business_id;
 
     
     // Define the headers for the request
