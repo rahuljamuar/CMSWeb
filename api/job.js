@@ -245,17 +245,27 @@ async function getAJob(job_id) {
         .then(data => {
             // Handle the data returned by the API
             console.log('API Response:', data);
+            if(data.review_status == "Approved"){
+                $(".btn").hide();                
+                $("#basic_validate :input"). prop("disabled", true);
+                
+            }
             document.getElementById("job_id").value = data.job_id;
             document.getElementById("driver").value = data.driver_id;
+            document.getElementById("reviewer_comment").value = data.reviewer_comment;
 
             var job_start_date = data.start_day.toString().split("T");
             job_start_date = job_start_date[0];
             document.getElementById("job_start_date").value = job_start_date;            
             document.getElementById("job_start_time").value = data.start_time;
             document.getElementById("start_km").value = data.start_km;
-
-            var job_end_date = data.end_day.toString().split("T");
-            job_end_date = job_end_date[0];
+            if(data.end_day != null){
+                var job_end_date = data.end_day.toString().split("T");
+                job_end_date = job_end_date[0];
+            }else{
+                var job_end_date = "";
+            }
+            
             document.getElementById("job_end_date").value = job_end_date;
             document.getElementById("job_end_time").value = data.end_time;
             document.getElementById("end_km").value = data.end_km;
@@ -330,13 +340,14 @@ function getJobPhoto(job_id) {
             }
             if(data.vehicle_right_photo != 'Photo not found'){
                 document.getElementById("right_photo_thumbnail").src = data.vehicle_right_photo.content;
-                document.getElementById("right_photo_thumbnail").alt = data.vehicle_right_photo.file_name;
+                document.getElementById("right_photo_thumbnail").alt = data.vehicle_right_photo.download ;
                 document.getElementById("right_photo_display").href = data.vehicle_right_photo.content;
             }
             if(data.vehicle_video != 'Video not found'){
                 // document.getElementById("video_thumbnail").src = data.vehicle_video.content;
                 // document.getElementById("video_thumbnail").alt = data.vehicle_video.file_name;
-                document.getElementById("video_display").src = data.vehicle_video.content;
+                document.getElementById("video_display").href = data.vehicle_video.content;
+                document.getElementById("video_display").download  = data.vehicle_video.file_name;
                 // var video = document.getElementById("video_display");
                 // var binaryString = atob(data.vehicle_video.content);
                 // var blob = new Blob([binaryString], {type: "video/mp4"}); // Replace "video/mp4" with the type MIME of your video
@@ -417,6 +428,126 @@ function updateJob() {
             $.gritter.add({
                 title:	'Job Updated',
                 text:	'Job is updated successfully!',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','darkgreen');	
+            $('#loading').hide();
+            
+        })
+        .catch(error => {
+            // Handle any errors that occur during the fetch request
+            console.error('There was a problem with the fetch operation:', error);
+            $('#loading').hide();
+        });
+}
+
+function approveJob() {
+    $('#loading').show();
+    
+    var job_id = document.getElementById("job_id").value
+
+    const requestData = {
+        "emp_id": 1001
+    };
+
+    const jsonData = JSON.stringify(requestData);
+    console.log('Request:', jsonData);
+
+    // Define the URL of the API
+    const apiUrl = baseURL + "/job/approve/" + job_id;
+
+
+    // Define the headers for the request
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('email', 'rahuljamuar@hotmail.com')
+    headers.append('token', 'test')
+
+    // Define the options for the fetch request
+    const requestOptions = {
+        method: 'PUT',
+        headers: headers,
+        body: jsonData
+    };
+
+    // Make the API call using fetch
+    fetch(apiUrl, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                $('#loading').hide();
+                throw new Error('Network response was not ok');
+                
+            }
+            return response.json(); // Parse the JSON returned by the API
+        })
+        .then(data => {
+            // Handle the data returned by the API
+            console.log('API Response:', data);
+            
+            $.gritter.add({
+                title:	'Job Approved',
+                text:	'Job is approved successfully!',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','darkgreen');	
+            $('#loading').hide();
+            
+        })
+        .catch(error => {
+            // Handle any errors that occur during the fetch request
+            console.error('There was a problem with the fetch operation:', error);
+            $('#loading').hide();
+        });
+}
+
+function rejectJob() {
+    $('#loading').show();
+    
+    var job_id = document.getElementById("job_id").value;
+    var reviewer_comment = document.getElementById("reviewer_comment").value;
+
+    const requestData = {
+        "emp_id": 1001,
+        "reviewer_comment": reviewer_comment
+    };
+
+    const jsonData = JSON.stringify(requestData);
+    console.log('Request:', jsonData);
+
+    // Define the URL of the API
+    const apiUrl = baseURL + "/job/reject/" + job_id;
+
+
+    // Define the headers for the request
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('email', 'rahuljamuar@hotmail.com')
+    headers.append('token', 'test')
+
+    // Define the options for the fetch request
+    const requestOptions = {
+        method: 'PUT',
+        headers: headers,
+        body: jsonData
+    };
+
+    // Make the API call using fetch
+    fetch(apiUrl, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                $('#loading').hide();
+                throw new Error('Network response was not ok');
+                
+            }
+            return response.json(); // Parse the JSON returned by the API
+        })
+        .then(data => {
+            // Handle the data returned by the API
+            console.log('API Response:', data);
+            
+            $.gritter.add({
+                title:	'Job Rejected',
+                text:	'Job is rejected successfully!',
                 sticky: false
             });
             $('.gritter-item').css('background-color','darkgreen');	

@@ -15,6 +15,26 @@
   <link rel="stylesheet" href="css/jquery.timepicker.min.css" />
   <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+  <style>
+    #video_display {
+      color: red;
+      font-family: helvetica;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+  
+    a:hover {
+      text-decoration: underline;
+    }
+  
+    a:active {
+      color: black;
+    }
+  
+    a:visited {
+      color: purple;
+    }
+  </style>
 </head>
 
 <body>
@@ -248,20 +268,21 @@
               <div class="control-group">
                 <label class="control-label">Vehicle Video:</label>
                 <div class="controls">
-                  <!-- <ul class="thumbnails"> -->
-                    <!-- <li class="span1"> <a> <img alt="" style="max-height:70%;" id="video_thumbnail"> </a>
-                      <div class="actions"> <a class="lightbox_trigger" id="video_display"><i
-                            class="icon-search"></i></a> </div>
-                    </li> -->
-                    <video width="320" height="240" controls>
-                      <source type="video/mp4" id="video_display">
-                    </video>
-                  <!-- </ul> -->
+                  <ul class="thumbnails">                    
+                      <a class="span11" id="video_display">Download Video</a>                    
+                  </ul>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Reviewer Comment:</label>
+                <div class="controls">
+                  <input type="text" class="span11" placeholder="Enter your comment only for rejection" id="reviewer_comment" />
                 </div>
               </div>
               <div class="form-actions">
-                <button type="button" class="btn btn-info" onclick="updateJob()">Update</button>
-                <button type="button" class="btn btn-success" style="float: right;" onclick="approveJob()">Approve</button>
+                <button type="button" class="btn btn-info" style="float: left;" onclick="updateJob()">Update</button>
+                <button type="button" class="span1 btn btn-success" style="float: right;" onclick="approveJob()">Approve</button>
+                <button type="button" class="span1 btn btn-danger" style="float: right;" onclick="rejectJob()">Reject</button>
               </div>
             </form>
           </div>
