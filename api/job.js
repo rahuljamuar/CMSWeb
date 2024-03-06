@@ -334,9 +334,13 @@ function getJobPhoto(job_id) {
                 document.getElementById("right_photo_display").href = data.vehicle_right_photo.content;
             }
             if(data.vehicle_video != 'Video not found'){
-                document.getElementById("video_thumbnail").src = data.vehicle_video.content;
-                document.getElementById("video_thumbnail").alt = data.vehicle_video.file_name;
-                document.getElementById("video_display").href = data.vehicle_video.content;
+                // document.getElementById("video_thumbnail").src = data.vehicle_video.content;
+                // document.getElementById("video_thumbnail").alt = data.vehicle_video.file_name;
+                document.getElementById("video_display").src = data.vehicle_video.content;
+                // var video = document.getElementById("video_display");
+                // var binaryString = atob(data.vehicle_video.content);
+                // var blob = new Blob([binaryString], {type: "video/mp4"}); // Replace "video/mp4" with the type MIME of your video
+                // video.srcObject = window.URL.createObjectURL(blob);
             }
             
           
@@ -423,58 +427,6 @@ function updateJob() {
             // Handle any errors that occur during the fetch request
             console.error('There was a problem with the fetch operation:', error);
             $('#loading').hide();
-        });
-}
-
-function uploadFuelDocs(fuel_id) {
-    var receipt_photo =document.getElementById("receipt_photo").files[0];
-    var odometer_photo =document.getElementById("odometer_photo").files[0];
-
-    // Define the URL of the API
-    const apiUrl = baseURL + "/fuel/docs";
-
-    // Define the data to be sent in the request body
-    const formdata = new FormData();
-    if(receipt_photo != null){
-        formdata.append("receipt_photo", receipt_photo);
-    }
-    if(odometer_photo != null){
-        formdata.append("current_km_photo", odometer_photo);
-    }
-
-    
-    
-    formdata.append("fuel_id", fuel_id);
-
-
-    // Define the headers for the request
-    const headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-    headers.append('email', 'rahuljamuar@hotmail.com')
-    headers.append('token', 'test')
-
-    // Define the options for the fetch request
-    const requestOptions = {
-        method: 'PUT',
-        headers: headers,
-        body: formdata
-    };
-
-    // Make the API call using fetch
-    fetch(apiUrl, requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');                
-            }
-            return response.json(); // Parse the JSON returned by the API
-        })
-        .then(data => {
-            // Handle the data returned by the API
-            console.log('API Response:', data);            
-        })
-        .catch(error => {
-            // Handle any errors that occur during the fetch request
-            console.error('There was a problem with the fetch operation:', error);            
         });
 }
 
