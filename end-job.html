@@ -12,12 +12,9 @@
   <link rel="stylesheet" href="css/uniform.css" />
   <link rel="stylesheet" href="css/matrix-style.css" />
   <link rel="stylesheet" href="css/matrix-media.css" />
-  <link rel="stylesheet" href="css/dataTables.css" />
-  <link rel="stylesheet" href="css/responsive.dataTables.css" />
+  <link rel="stylesheet" href="css/jquery.timepicker.min.css" />
   <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
-
-  
 </head>
 
 <body>
@@ -99,9 +96,9 @@
   <div id="content">
     <div id="content-header">
       <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>
-          Home</a> <a href="#" class="tip-bottom">Profile</a>
+          Home</a> <a href="#" class="tip-bottom">Job</a>
       </div>
-      <h1>Profile</h1>
+      <h1>Job</h1>
     </div>
     <div class="container-fluid">
       <hr>
@@ -109,95 +106,74 @@
         <div class="span12">
           <div class="widget-box">
             <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-              <h5>New Profile</h5>
+              <h5>New Job</h5>
             </div>
             <div class="widget-content nopadding">
-              <form action="" class="form-horizontal" name="basic_validate" id="basic_validate" novalidate="novalidate">
+              <form action="" method="get" class="form-horizontal" name="basic_validate" id="basic_validate" novalidate="novalidate">
                 <div id="loading" style="display: none;"></div>
-                <div class="control-group">
-                  <label class="control-label">Profile Photo</label>
+                <div class="control-group" id="total_earning_div">
+                  <label class="control-label">Job ID:</label>
                   <div class="controls">
-                    <input type="file" id="profile_photo"/>
+                    <input type="text" class="span11" placeholder="Total Earning" id="job_id" readonly/>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label">Full Name:</label>
+                  <label class="control-label">End Date:</label>
                   <div class="controls">
-                    <input type="text" class="span11" id="full_name" placeholder="Full Name" />
+                    <input type="text" class="datepicker span11" id="job_end_date">
+                    <span class="help-block">Date with Format of (dd-mm-yyyy)</span> </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">End Time:</label>
+                  <div class="controls">
+                    <input type="text" class="timepicker span11" id="job_end_time" readonly> </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">End KM:</label>
+                  <div class="controls">
+                    <input type="number" class="span11" placeholder="End KM" id="end_km"/>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label">Email:</label>
+                  <label class="control-label">Odometer Photo</label>
                   <div class="controls">
-                    <input type="text" class="span11" name="email" id="email" placeholder="Email">
+                    <input type="file" id="end_odometer_photo"/>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label">Mobile:</label>
+                  <label class="control-label">Vehicle Front Photo:</label>
                   <div class="controls">
-                    <input type="text" class="span11" name="number" id="mobile" placeholder="Mobile"/>
+                    <input type="file" id="front_photo"/>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label">Address:</label>
+                  <label class="control-label">Vehicle Left Photo:</label>
                   <div class="controls">
-                    <input type="text" class="span11" id="address" placeholder="Address" />
+                    <input type="file" id="left_photo"/>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label">DL Number:</label>
+                  <label class="control-label">Vehicle Back Photo:</label>
                   <div class="controls">
-                    <input type="text" class="span11" id="dl_number" placeholder="DL Number" />
+                    <input type="file" id="back_photo"/>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label">Aadhar:</label>
+                  <label class="control-label">Vehicle Right Photo:</label>
                   <div class="controls">
-                    <input type="text" class="span11" id="aadhar" placeholder="Aadhar" />
+                    <input type="file" id="right_photo"/>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label">PAN:</label>
+                  <label class="control-label">Vehicle Video:</label>
                   <div class="controls">
-                    <input type="text" class="span11" id="pan" placeholder="PAN" />
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">Badge Number:</label>
-                  <div class="controls">
-                    <input type="text" class="span11" id="badge_number" placeholder="Badge Number" />
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">Role</label>
-                  <div class="controls">
-                    <label>
-                      <input type="checkbox" id="manager_role" />
-                      Manager</label>
-                    <label>
-                      <input type="checkbox" id="driver_role" />
-                      Driver</label>
+                    <input type="file" id="video" capture="environment" accept="video/*"/>
                   </div>
                 </div>
                 <div class="form-actions">
-                  <button type="button" onclick="createProfile()" class="btn btn-success">Save</button>
+                  <button type="button" onclick="endJob()" class="btn btn-success">Save</button>
                 </div>
               </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid">
-      <hr>
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="widget-box">
-            <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-              <h5>Profile List</h5>
-            </div>
-            <div class="widget-content nopadding">
-              <table class="display" id="example" width="100%"></table>
             </div>
           </div>
         </div>
@@ -207,19 +183,20 @@
   
   <!--Footer-part-->
 
+  <!--end-Footer-part-->
   <script>
-    window.onload = function() {
-      setTimeout(function() {
+    window.onload = function () {
+      setTimeout(async function () {
         var t = performance.timing;
         console.log(t.loadEventEnd - t.responseEnd);
-        getAllProfile();
+        var parameters = location.search.substring(1).split("&");
+        var temp = parameters[0].split("=");
+        var job_id = unescape(temp[1]);
+        document.getElementById("job_id").value = job_id;
       }, 0);
     }
   </script>
-  <!--end-Footer-part-->
   <script src="js/jquery.min.js"></script>
-  <script src="js/jquery.dataTables.min.js"></script> 
-  <script src="js/dataTables.responsive.js"></script> 
   <script src="js/bootstrap.min.js"></script>
   <script src="js/jquery.gritter.min.js"></script>
   <script src="js/jquery.uniform.js"></script>
@@ -228,8 +205,20 @@
   <script src="js/jquery-ui.js"></script>
   <script src="js/matrix.form_validation.js"></script>
   <script src="js/jquery.peity.min.js"></script>
-  <script src="api/profile.js"></script>
-  
+  <script src="js/jquery.timepicker.min.js"></script>
+  <script src="api/job.js"></script>
+  <script>
+    $('.timepicker').timepicker({
+      'step': 30
+    });
+    $('.timepicker').timepicker({
+      'step': function (i) {
+        return (i % 2) ? 30 : 30;
+      }
+    });
+    $('.timepicker').timepicker('setTime', new Date());
+  </script>
+
 </body>
 
 </html>

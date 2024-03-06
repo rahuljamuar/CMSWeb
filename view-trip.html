@@ -16,8 +16,6 @@
   <link rel="stylesheet" href="css/responsive.dataTables.css" />
   <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
-
-  
 </head>
 
 <body>
@@ -29,6 +27,7 @@
   <!--close-Header-part-->
 
   <!--top-Header-menu-->
+  <!-- <div id="includedHeader"></div> -->
   <div id="user-nav" class="navbar navbar-inverse">
     <ul class="nav">
       <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome User</span><b class="caret"></b></a>
@@ -57,6 +56,7 @@
 
   <!--sidebar-menu-->
 
+  <!-- <div id="includedContent"></div> -->
   <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i>Dashboard</a>
     <ul>
       <li ><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
@@ -99,94 +99,9 @@
   <div id="content">
     <div id="content-header">
       <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>
-          Home</a> <a href="#" class="tip-bottom">Profile</a>
+          Home</a> <a href="#" class="tip-bottom">Trip</a>
       </div>
-      <h1>Profile</h1>
-    </div>
-    <div class="container-fluid">
-      <hr>
-      <div class="row-fluid">
-        <div class="span12">
-          <div class="widget-box">
-            <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-              <h5>New Profile</h5>
-            </div>
-            <div class="widget-content nopadding">
-              <form action="" class="form-horizontal" name="basic_validate" id="basic_validate" novalidate="novalidate">
-                <div id="loading" style="display: none;"></div>
-                <div class="control-group">
-                  <label class="control-label">Profile Photo</label>
-                  <div class="controls">
-                    <input type="file" id="profile_photo"/>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">Full Name:</label>
-                  <div class="controls">
-                    <input type="text" class="span11" id="full_name" placeholder="Full Name" />
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">Email:</label>
-                  <div class="controls">
-                    <input type="text" class="span11" name="email" id="email" placeholder="Email">
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">Mobile:</label>
-                  <div class="controls">
-                    <input type="text" class="span11" name="number" id="mobile" placeholder="Mobile"/>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">Address:</label>
-                  <div class="controls">
-                    <input type="text" class="span11" id="address" placeholder="Address" />
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">DL Number:</label>
-                  <div class="controls">
-                    <input type="text" class="span11" id="dl_number" placeholder="DL Number" />
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">Aadhar:</label>
-                  <div class="controls">
-                    <input type="text" class="span11" id="aadhar" placeholder="Aadhar" />
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">PAN:</label>
-                  <div class="controls">
-                    <input type="text" class="span11" id="pan" placeholder="PAN" />
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">Badge Number:</label>
-                  <div class="controls">
-                    <input type="text" class="span11" id="badge_number" placeholder="Badge Number" />
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">Role</label>
-                  <div class="controls">
-                    <label>
-                      <input type="checkbox" id="manager_role" />
-                      Manager</label>
-                    <label>
-                      <input type="checkbox" id="driver_role" />
-                      Driver</label>
-                  </div>
-                </div>
-                <div class="form-actions">
-                  <button type="button" onclick="createProfile()" class="btn btn-success">Save</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+      <h1>Trip</h1>
     </div>
     <div class="container-fluid">
       <hr>
@@ -194,10 +109,10 @@
         <div class="span12">
           <div class="widget-box">
             <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-              <h5>Profile List</h5>
+              <h5>Trip List</h5>
             </div>
             <div class="widget-content nopadding">
-              <table class="display" id="example" width="100%"></table>
+              <table class="display" id="trip_table" style="width:100%"></table>
             </div>
           </div>
         </div>
@@ -206,17 +121,17 @@
   </div>
   
   <!--Footer-part-->
-
-  <script>
-    window.onload = function() {
-      setTimeout(function() {
-        var t = performance.timing;
-        console.log(t.loadEventEnd - t.responseEnd);
-        getAllProfile();
-      }, 0);
-    }
-  </script>
   <!--end-Footer-part-->
+  <script>
+    window.onload = function () {
+      setTimeout(async function () {
+          var t = performance.timing;
+          console.log(t.loadEventEnd - t.responseEnd);          
+          getAllTrip()
+         
+      }, 0);
+  }
+    </script>
   <script src="js/jquery.min.js"></script>
   <script src="js/jquery.dataTables.min.js"></script> 
   <script src="js/dataTables.responsive.js"></script> 
@@ -228,8 +143,7 @@
   <script src="js/jquery-ui.js"></script>
   <script src="js/matrix.form_validation.js"></script>
   <script src="js/jquery.peity.min.js"></script>
-  <script src="api/profile.js"></script>
-  
+  <script src="api/trip.js"></script>
 </body>
 
 </html>

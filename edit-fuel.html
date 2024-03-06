@@ -56,7 +56,12 @@
   <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i>Dashboard</a>
     <ul>
       <li ><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-      <li> <a href="trip.html"><i class="icon icon-plane"></i> <span>Trip</span></a> </li>
+      <li class="submenu"> <a href="#"><i class="icon icon-plane"></i> <span>Trip</span></a>
+        <ul>
+          <li><a href="trip.html">Trip</a></li>
+          <li><a href="view-trip.html">All Trips</a></li>
+        </ul>
+      </li>
       <li> <a href="job.html"><i class="icon icon-bullhorn"></i> <span>Job</span></a> </li>
       <li><a href="profile.html"><i class="icon icon-th"></i> <span>Profile</span></a></li>
       <li class="submenu"> <a href="#"><i class="icon icon-user"></i> <span>Driver</span></a>
@@ -194,10 +199,7 @@
   </div>
   
   <!--Footer-part-->
-  <div class="row-fluid">
-    <div id="footer" class="span12"> 2013 &copy; Matrix Admin. Brought to you by <a
-        href="https://themedesigner.in">Themedesigner.in</a> </div>
-  </div>
+
   <script>
     window.onload = function() {
       setTimeout(async function() {
