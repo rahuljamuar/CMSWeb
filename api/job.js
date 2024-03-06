@@ -1,8 +1,8 @@
 var baseURL = myBaseURL();
 
-function getAllTrip() {
+function getAllJob() {
     // Define the URL of the API
-    const apiUrl = baseURL + "/trip/";
+    const apiUrl = baseURL + "/job/";
 
     
     // Define the headers for the request
@@ -33,16 +33,23 @@ function getAllTrip() {
             
             for (i = 0; i < count; i++) {
                 var current_row = [];
-                var trip_id = encodeURIComponent(data[i]["trip_id"]);
-                trip_id = '<a style="color: blue;" href="edit-trip.html?trip_id=' + trip_id + '">' + data[i]["trip_id"] + '</a>' ;
-                current_row.push(trip_id);
-                current_row.push(data[i]["trip_type"]);
-                var trip_date = data[i]["trip_date"].toString().split("T");
-                trip_date = trip_date[0];
-                current_row.push(trip_date);
+                var job_id = encodeURIComponent(data[i]["job_id"]);
+                job_id = '<a style="color: blue;" href="edit-job.html?job_id=' + job_id + '">' + data[i]["job_id"] + '</a>' ;
+                current_row.push(job_id);
+                var start_day = data[i]["start_day"].toString().split("T");
+                start_day = start_day[0];
+                if(data[i]["end_day"] != null){
+                    var end_day = data[i]["end_day"].toString().split("T");
+                    end_day = end_day[0];
+                }else{
+                    var end_day = encodeURIComponent(data[i]["job_id"]);
+                    end_day = '<a style="color: blue;" href="end-job.html?job_id=' + end_day + '">End Job</a>' ;                    
+                }
+                
                 current_row.push(data[i]["driver_id"]);
                 current_row.push(data[i]["vehicle_registration_id"]);
-                current_row.push(data[i]["total_revenue"]);
+                current_row.push(start_day);
+                current_row.push(end_day);
                 dataSet.push(current_row);
             }
             
@@ -56,15 +63,14 @@ function getAllTrip() {
                 r[3] = div3;
             })
              
-            new DataTable('#trip_table', {
+            new DataTable('#job_table', {
                 responsive: true,
                 columns: [
-                    { title: 'Trip ID' },
-                    { title: 'Type' },
-                    { title: 'Date' },
+                    { title: 'Job ID' },
                     { title: 'Driver' },
                     { title: 'Vehicle RC' },
-                    { title: 'Total Revenue' }
+                    { title: 'Start Date' },
+                    { title: 'End Date' }
                 ],
                 data: dataSet
             });
@@ -212,9 +218,9 @@ function endJob() {
         });
 }
 
-async function getATrip(trip_id) {
+async function getAJob(job_id) {
     // Define the URL of the API
-    const apiUrl = baseURL + "/trip/trip_id/" + trip_id;
+    const apiUrl = baseURL + "/job/job_id/" + job_id;
 
     
     // Define the headers for the request
@@ -239,61 +245,22 @@ async function getATrip(trip_id) {
         .then(data => {
             // Handle the data returned by the API
             console.log('API Response:', data);
-            document.getElementById("trip_id").value = data.trip_id;
-            document.getElementById("trip_type").value = data.trip_type;
-            var trip_date = data.trip_date.toString().split("T");
-            trip_date = trip_date[0];
-            if(data.trip_type == "Company"){
-                document.getElementById("driver").value = data.driver_id;                
-                document.getElementById("trip_date").value = trip_date;
-                document.getElementById("trip_start_time").value = data.trip_start_time;
-                document.getElementById("trip_end_time").value = data.trip_end_time;
-                document.getElementById("trip_count").value = data.trip_count;
-                document.getElementById("business").value = data.business_id;  
-                document.getElementById("vehicle").value = data.vehicle_registration_id;
-                $("#total_earning_div").hide();
-                $("#cash_div").hide();
-                $("#upi_div").hide();
-                $("#city_div").hide();
-                $("#duration_div").hide();
-                $("#business_div").show();
-            }
-            else if(data.trip_type == "Ola" || data.trip_type == "Uber" || data.trip_type == "Personal"){
-                document.getElementById("driver").value = data.driver_id;
-                document.getElementById("trip_date").value = trip_date;
-                document.getElementById("trip_start_time").value = data.trip_start_time;
-                document.getElementById("trip_end_time").value = data.trip_end_time;
-                document.getElementById("total_earning").value = data.total_revenue;
-                document.getElementById("trip_count").value = data.trip_count;
-                document.getElementById("vehicle").value = data.vehicle_registration_id;
-                document.getElementById("cash").value = data.cash_revenue; 
-                document.getElementById("upi").value = data.upi_revenue;
-                $("#total_earning_div").show();
-                $("#cash_div").show();
-                $("#upi_div").show();
-                $("#city_div").hide();
-                $("#business_div").hide();
-                $("#duration_div").hide();
-            }
-            else if(data.trip_type == "Rental"){
-                document.getElementById("driver").value = data.driver_id;
-                document.getElementById("trip_date").value = trip_date;
-                document.getElementById("trip_start_time").value = data.trip_start_time;
-                document.getElementById("trip_end_time").value = data.trip_end_time;
-                document.getElementById("total_earning").value = data.total_revenue;
-                document.getElementById("trip_count").value = data.trip_count;
-                document.getElementById("vehicle").value = data.vehicle_registration_id;
-                document.getElementById("cash").value = data.cash_revenue; 
-                document.getElementById("upi").value = data.upi_revenue;
-                document.getElementById("city").value = data.city;
-                document.getElementById("duration").value = data.duration_days;
-                $("#total_earning_div").show();
-                $("#cash_div").show();
-                $("#upi_div").show();
-                $("#business_div").hide();
-                $("#duration_div").show();
-                $("#city_div").show();
-            }
+            document.getElementById("job_id").value = data.job_id;
+            document.getElementById("driver").value = data.driver_id;
+
+            var job_start_date = data.start_day.toString().split("T");
+            job_start_date = job_start_date[0];
+            document.getElementById("job_start_date").value = job_start_date;            
+            document.getElementById("job_start_time").value = data.start_time;
+            document.getElementById("start_km").value = data.start_km;
+
+            var job_end_date = data.end_day.toString().split("T");
+            job_end_date = job_end_date[0];
+            document.getElementById("job_end_date").value = job_end_date;
+            document.getElementById("job_end_time").value = data.end_time;
+            document.getElementById("end_km").value = data.end_km;
+
+            document.getElementById("vehicle").value = data.vehicle_registration_id;
             
             
         })
@@ -304,9 +271,9 @@ async function getATrip(trip_id) {
 
 }
 
-function getFuelDoc(fuel_id) {
+function getJobPhoto(job_id) {
     // Define the URL of the API
-    const apiUrl = baseURL + "/fuel/fuel_doc/" + fuel_id;
+    const apiUrl = baseURL + "/job/job-photo/" + job_id;
 
     
     // Define the headers for the request
@@ -331,23 +298,45 @@ function getFuelDoc(fuel_id) {
         .then(data => {
             // Handle the data returned by the API
             console.log('API Response:', data);
-            if(data.receipt_photo != 'Photo not found'){
-                document.getElementById("receipt_photo_thumbnail").src = data.receipt_photo.content;
-                document.getElementById("receipt_photo_thumbnail").alt = data.receipt_photo.file_name;
-                document.getElementById("receipt_photo_display").href = data.receipt_photo.content;
-            }else{
-                document.getElementById("receipt_photo_thumbnail").src = "/img/user.png";
-                document.getElementById("receipt_photo_thumbnail").alt = "User";
-                document.getElementById("receipt_photo_display").href = "/img/user.png";
+            if(data.start_km_photo != 'Photo not found'){
+                document.getElementById("start_odometer_photo_thumbnail").src = data.start_km_photo.content;
+                document.getElementById("start_odometer_photo_thumbnail").alt = data.start_km_photo.file_name;
+                document.getElementById("start_odometer_photo_display").href = data.start_km_photo.content;
             }
-            if(data.current_km_photo != 'Photo not found'){
-                document.getElementById("current_km_photo_thumbnail").src = data.current_km_photo.content;
-                document.getElementById("current_km_photo_thumbnail").alt = data.current_km_photo.file_name;
-                document.getElementById("current_km_photo_display").href = data.current_km_photo.content;
-            }else{
-                document.getElementById("current_km_photo_thumbnail").src = "/img/user.png";
-                document.getElementById("current_km_photo_thumbnail").alt = "User";
-                document.getElementById("current_km_photo_display").href = "/img/user.png";
+            if(data.end_km_photo != 'Photo not found'){
+                document.getElementById("end_odometer_photo_thumbnail").src = data.end_km_photo.content;
+                document.getElementById("end_odometer_photo_thumbnail").alt = data.end_km_photo.file_name;
+                document.getElementById("end_odometer_photo_display").href = data.end_km_photo.content;
+            }
+            if(data.driver_selfie != 'Photo not found'){
+                document.getElementById("driver_selfie_thumbnail").src = data.driver_selfie.content;
+                document.getElementById("driver_selfie_thumbnail").alt = data.driver_selfie.file_name;
+                document.getElementById("driver_selfie_display").href = data.driver_selfie.content;
+            }
+            if(data.vehicle_front_photo != 'Photo not found'){
+                document.getElementById("front_photo_thumbnail").src = data.vehicle_front_photo.content;
+                document.getElementById("front_photo_thumbnail").alt = data.vehicle_front_photo.file_name;
+                document.getElementById("front_photo_display").href = data.vehicle_front_photo.content;
+            }
+            if(data.vehicle_left_photo != 'Photo not found'){
+                document.getElementById("left_photo_thumbnail").src = data.vehicle_left_photo.content;
+                document.getElementById("left_photo_thumbnail").alt = data.vehicle_left_photo.file_name;
+                document.getElementById("left_photo_display").href = data.vehicle_left_photo.content;
+            }
+            if(data.vehicle_back_photo != 'Photo not found'){
+                document.getElementById("back_photo_thumbnail").src = data.vehicle_back_photo.content;
+                document.getElementById("back_photo_thumbnail").alt = data.vehicle_back_photo.file_name;
+                document.getElementById("back_photo_display").href = data.vehicle_back_photo.content;
+            }
+            if(data.vehicle_right_photo != 'Photo not found'){
+                document.getElementById("right_photo_thumbnail").src = data.vehicle_right_photo.content;
+                document.getElementById("right_photo_thumbnail").alt = data.vehicle_right_photo.file_name;
+                document.getElementById("right_photo_display").href = data.vehicle_right_photo.content;
+            }
+            if(data.vehicle_video != 'Video not found'){
+                document.getElementById("video_thumbnail").src = data.vehicle_video.content;
+                document.getElementById("video_thumbnail").alt = data.vehicle_video.file_name;
+                document.getElementById("video_display").href = data.vehicle_video.content;
             }
             
           
@@ -360,89 +349,34 @@ function getFuelDoc(fuel_id) {
 
 }
 
-function updateTrip() {
+function updateJob() {
     $('#loading').show();
-    var trip_type = document.getElementById("trip_type").value;
-    var trip_id = document.getElementById("trip_id").value
-    if(trip_type == "Company"){
-        var driver = document.getElementById("driver").value;
-        var trip_date = document.getElementById("trip_date").value;
-        var trip_start_time = document.getElementById("trip_start_time").value;
-        var trip_end_time = document.getElementById("trip_end_time").value;
-        var total_earning = document.getElementById("total_earning").value;
-        var trip_count = document.getElementById("trip_count").value;       
-        var business = document.getElementById("business").value;        
-        var vehicle = document.getElementById("vehicle").value;
-        
-        var requestData = {
-            "trip_id": trip_id,
-            "trip_type": trip_type,
-            "driver_id": driver,
-            "trip_date": trip_date,
-            "trip_start_time": trip_start_time,
-            "trip_end_time": trip_end_time,
-            "trip_count": trip_count,
-            "business_id": business,
-            "vehicle_registration_id": vehicle
-        };
-    }
-    else if(trip_type == "Ola" || trip_type == "Uber" || trip_type == "Personal"){
-        var driver = document.getElementById("driver").value;
-        var trip_date = document.getElementById("trip_date").value;
-        var trip_start_time = document.getElementById("trip_start_time").value;
-        var trip_end_time = document.getElementById("trip_end_time").value;
-        var total_earning = document.getElementById("total_earning").value;
-        var cash = document.getElementById("cash").value;
-        var trip_count = document.getElementById("trip_count").value;   
-        var upi = document.getElementById("upi").value;
-        var vehicle = document.getElementById("vehicle").value;
-
-        var requestData = {
-            "trip_id": trip_id,
-            "trip_type": trip_type,
-            "driver_id": driver,
-            "trip_date": trip_date,
-            "trip_start_time": trip_start_time,
-            "trip_end_time": trip_end_time,
-            "total_revenue": total_earning,
-            "trip_count": trip_count,
-            "cash_revenue": cash,
-            "upi_revenue": upi,
-            "vehicle_registration_id": vehicle
-        };
-    }
-    else if(trip_type == "Rental"){
-        var driver = document.getElementById("driver").value;
-        var trip_date = document.getElementById("trip_date").value;
-        var trip_start_time = document.getElementById("trip_start_time").value;
-        var total_earning = document.getElementById("total_earning").value;
-        var trip_end_time = document.getElementById("trip_end_time").value;
-        var trip_count = document.getElementById("trip_count").value;  
-        var cash = document.getElementById("cash").value;
-        var upi = document.getElementById("upi").value;
-        var vehicle = document.getElementById("vehicle").value;
-        var city = document.getElementById("city").value;
-        var duration = document.getElementById("duration").value;
-
-        var requestData = {
-            "trip_id": trip_id,
-            "trip_type": trip_type,
-            "driver_id": driver,
-            "trip_date": trip_date,
-            "trip_start_time": trip_start_time,
-            "trip_end_time": trip_end_time,
-            "total_revenue": total_earning,
-            "trip_count": trip_count,
-            "cash_revenue": cash,
-            "upi_revenue": upi,
-            "vehicle_registration_id": vehicle,
-            "city": city,
-            "duration_days": duration
-        };
-    }
+    
+    var job_id = document.getElementById("job_id").value
+    var driver = document.getElementById("driver").value;
+    var job_start_date = document.getElementById("job_start_date").value;
+    var job_start_time = document.getElementById("job_start_time").value;
+    var start_km = document.getElementById("start_km").value;           
+    var vehicle = document.getElementById("vehicle").value;
+    var job_end_date = document.getElementById("job_end_date").value;
+    var job_end_time = document.getElementById("job_end_time").value;
+    var end_km = document.getElementById("end_km").value;
 
     // Define the URL of the API
-    const apiUrl = baseURL + "/trip/";
+    const apiUrl = baseURL + "/job/";
+
+    // Define the data to be sent in the request body
+    const requestData = {
+        "job_id": job_id,
+        "driver_id": driver,
+        "start_day": job_start_date,
+        "start_time": job_start_time,
+        "start_km": start_km,
+        "vehicle_registration_id": vehicle,
+        "end_day": job_end_date,
+        "end_time": job_end_time,
+        "end_km": end_km
+    };
     
     // Convert the data to JSON format
     const jsonData = JSON.stringify(requestData);
@@ -477,8 +411,8 @@ function updateTrip() {
             console.log('API Response:', data);
             
             $.gritter.add({
-                title:	'Trip Updated',
-                text:	'Trip is updated successfully!',
+                title:	'Job Updated',
+                text:	'Job is updated successfully!',
                 sticky: false
             });
             $('.gritter-item').css('background-color','darkgreen');	
