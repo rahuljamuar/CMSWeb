@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+    document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
 
 	var login = $('#loginform');
 	var recover = $('#recoverform');
