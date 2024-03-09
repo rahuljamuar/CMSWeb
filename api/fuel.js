@@ -82,6 +82,7 @@ function createFuel() {
     var quantity = document.getElementById("quantity").value;
     var cost = document.getElementById("cost").value;
     var current_km = document.getElementById("current_km").value;
+    var job_id = document.getElementById("job_id").value;
 
     // Define the URL of the API
     const apiUrl = baseURL + "/fuel/";
@@ -94,7 +95,8 @@ function createFuel() {
         "refill_cost": cost,
         "current_km": current_km,
         "driver_id": driver,
-        "vehicle_registration_id": vehicle
+        "vehicle_registration_id": vehicle,
+        "job_id": job_id
     };
 
     // Convert the data to JSON format
@@ -129,9 +131,11 @@ function createFuel() {
             var odometer_photo =document.getElementById("odometer_photo").files[0];
             if(receipt_photo != null || odometer_photo != null){
                 uploadFuelDocs(data.fuel_id)
+            }else{
+                fuelAdded();
+                $('#loading').hide();                
             }
             
-            $('#loading').hide();
         })
         .catch(error => {
             // Handle any errors that occur during the fetch request
@@ -366,7 +370,9 @@ function uploadFuelDocs(fuel_id) {
         })
         .then(data => {
             // Handle the data returned by the API
-            console.log('API Response:', data);            
+            console.log('API Response:', data);             
+            fuelAdded();    
+            $('#loading').hide();       
         })
         .catch(error => {
             // Handle any errors that occur during the fetch request
@@ -498,4 +504,8 @@ function deleteFuel() {
             $('#loading').hide();
         });
 
+}
+
+function fuelAdded(){
+    $('#fuel_added').modal('show');
 }

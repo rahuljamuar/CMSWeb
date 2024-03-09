@@ -202,6 +202,14 @@ if (user == "") {
 	window.location="login.html";	
 }
 
+function refresh(){
+    location.reload();
+}
+
+function redirectToIndex(){
+    window.location="index.html";	
+}
+
 function myBaseURL(){
 	return "https://cms-server.azurewebsites.net/api";
 	// return "http://localhost:8080/api";

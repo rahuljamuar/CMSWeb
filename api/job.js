@@ -91,9 +91,6 @@ function createJob() {
     var job_start_time = document.getElementById("job_start_time").value;
     var start_km = document.getElementById("start_km").value;           
     var vehicle = document.getElementById("vehicle").value;
-        
-        
-
 
     // Define the URL of the API
     const apiUrl = baseURL + "/job/";
@@ -140,8 +137,12 @@ function createJob() {
             var driver_selfie =document.getElementById("driver_selfie").files[0];
             if(start_odometer_photo != null || driver_selfie != null){
                 uploadJobPhoto(data.job_id)
+            }else{
+                jobStarted();  
+                $('#loading').hide();
+                              
             }
-            $('#loading').hide();
+            
         })
         .catch(error => {
             // Handle any errors that occur during the fetch request
@@ -208,8 +209,11 @@ function endJob() {
             var video =document.getElementById("video").files[0];
             if(end_odometer_photo != null || front_photo != null || left_photo != null || back_photo != null || right_photo != null || video != null){
                 uploadJobEndPhoto(job_id)
+            }else{
+                jobEnded();
+                $('#loading').hide();
+                                
             }
-            $('#loading').hide();
         })
         .catch(error => {
             // Handle any errors that occur during the fetch request
@@ -686,7 +690,9 @@ function uploadJobPhoto(job_id) {
         })
         .then(data => {
             // Handle the data returned by the API
-            console.log('API Response:', data);            
+            console.log('API Response:', data);  
+            jobStarted();  
+            $('#loading').hide();        
         })
         .catch(error => {
             // Handle any errors that occur during the fetch request
@@ -751,7 +757,10 @@ function uploadJobEndPhoto(job_id) {
         })
         .then(data => {
             // Handle the data returned by the API
-            console.log('API Response:', data);            
+            console.log('API Response:', data);
+            jobEnded();
+            $('#loading').hide();
+                          
         })
         .catch(error => {
             // Handle any errors that occur during the fetch request
@@ -800,4 +809,12 @@ function deleteJob() {
             $('#loading').hide();
         });
 
+}
+
+function jobStarted(){
+    $('#job_start').modal('show');
+}
+
+function jobEnded(){
+    $('#job_end').modal('show');
 }

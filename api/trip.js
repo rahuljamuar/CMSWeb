@@ -207,9 +207,10 @@ function createTrip() {
         })
         .then(data => {
             // Handle the data returned by the API
-            console.log('API Response:', data);
-            
+            console.log('API Response:', data);            
+            tripStarted();
             $('#loading').hide();
+            
         })
         .catch(error => {
             // Handle any errors that occur during the fetch request
@@ -608,4 +609,8 @@ function deleteTrip() {
             $('#loading').hide();
         });
 
+}
+
+function tripStarted(){
+    $('#confirmation').modal('show');
 }

@@ -53,7 +53,7 @@ function getUser() {
             }else if(data.is_manager == true){
                 window.location="manager-dashboard.html";
             }else if(data.is_driver == true){
-                window.location="driver-dashboard.html";
+                window.location="index.html";
             }
             
             
@@ -67,7 +67,7 @@ function getUser() {
 }
 
 function driverLogin(){
-    window.location="driver-dashboard.html";
+    window.location="index.html";
 }
 
 function managerLogin(){
