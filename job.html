@@ -134,7 +134,7 @@
                   <label class="control-label">Start Date:</label>
                   <div class="controls">
                     <input type="text" class="datepicker span11" id="job_start_date">
-                    <span class="help-block">Date with Format of (dd-mm-yyyy)</span> </div>
+                    <span class="help-block">Date with Format of (yyyy-mm-dd)</span> </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label">Start Time:</label>
@@ -222,6 +222,13 @@
       }
     });
     $('.timepicker').timepicker('setTime', new Date());
+    var date = new Date();
+    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    $('#job_start_date').datepicker({
+      dateFormat: 'yy-mm-dd'
+    });
+
+    $('#job_start_date').datepicker('setDate', today);
   </script>
 
 </body>

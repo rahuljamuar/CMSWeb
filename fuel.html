@@ -257,6 +257,14 @@
     }    
     });
     $('.timepicker').timepicker('setTime', new Date());
+    var date = new Date();
+    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+    $('#refill_date').datepicker({
+      dateFormat: 'yy-mm-dd'
+    });
+
+    $('#refill_date').datepicker('setDate', today);
   </script>
 </body>
 

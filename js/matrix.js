@@ -164,14 +164,6 @@ $(document).ready(function(){
 });
 
 
-$( function() {
-    $( ".datepicker" ).datepicker();
-	$( ".datepicker" ).on( "change", function() {
-		$( ".datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-	  });
-  } );
-
-
 function setCookie(cname, cvalue) {
 	var d = new Date();
 	d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
