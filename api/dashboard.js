@@ -146,6 +146,7 @@ async function getCurrentJob() {
             if (data != "404") {
                 document.getElementById("current_job_id").value = data.job_id;
                 getFuelByJob(data.job_id);
+                setCookie("job_id", data.job_id);
                 document.getElementById("bg_lb").style.display = 'none';
             } else {
                 document.getElementById("bg_ls").style.display = 'none';
@@ -216,6 +217,46 @@ function getFuelByJob(job_id) {
 function endCurrentJob(){
     var job_id = document.getElementById('current_job_id').value;
     window.location="end-job.html?job_id=" + job_id;
+}
+
+async function getDriverAssignedDetails() {
+    // Define the URL of the API
+    var driver_id = getCookie("emp_id");  
+    const apiUrl = baseURL + "/driver_id/" + driver_id;
+    
+    // Define the headers for the request
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('email', 'rahuljamuar@hotmail.com');
+    headers.append('token', 'test');
+
+    // Define the options for the fetch request
+    const requestOptions = {
+        method: 'GET',
+        headers: headers
+    };
+    // Make the API call using fetch
+    await fetch(apiUrl, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                if(response.status == 404){
+                    return "404"
+                }
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the JSON returned by the API
+        })
+        .then(data => {
+            // Handle the data returned by the API
+            console.log('API Response:', data); 
+            document.getElementById("fuel_quantity")
+                        
+        })
+        .catch(error => {
+            // Handle any errors that occur during the fetch request
+            console.error('There was a problem with the fetch operation:', error);
+        });
+
 }
 
 function addFuel(){

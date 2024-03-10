@@ -599,6 +599,13 @@ async function getAllDriver() {
                 $('#driver').append( '<option value=' + data[i]["emp_id"] +'>' + data[i]["full_name"] + '</option>' );  
             }
             
+            var current_role = getCookie("role")
+            if(current_role == "driver"){
+                document.getElementById('driver').value = getCookie("emp_id");
+                document.getElementById('driver').disabled = true;
+            }
+            
+            
         })
         .catch(error => {
             // Handle any errors that occur during the fetch request
@@ -639,6 +646,12 @@ async function getAllVehicle() {
             
             for (i = 0; i < count; i++) {
                 $('#vehicle').append( '<option value=' + data[i]["vehicle_registration_id"] +'>' + data[i]["vehicle_registration_id"] + '</option>' );  
+            }
+            
+            var current_role = getCookie("role");
+            if(current_role == "driver"){
+                document.getElementById('vehicle').value = getCookie("driver_assigned_vehicle");
+                document.getElementById('vehicle').disabled = true;
             }
             
         })

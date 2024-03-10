@@ -44,15 +44,17 @@ function getUser() {
                 role = "both";
             }else if(data.is_manager == true){
                 role = "manager";
-            }else if(data.is_driver == true){
+            }else if(data.is_driver == true){                
                 role = "driver";
+                setCookie("driver_assigned_vehicle", data.vehicle_assigned);
+                setCookie("driver_assigned_business", data.business_assigned);
             }
             setCookie("role", role);
-            if(data.is_driver == true && data.is_manager == true){
+            if(role == "both"){
                 $('#myRole').modal('show');
-            }else if(data.is_manager == true){
+            }else if(role == "manager"){
                 window.location="manager-dashboard.html";
-            }else if(data.is_driver == true){
+            }else if(role == "driver"){
                 window.location="index.html";
             }
             
@@ -67,6 +69,8 @@ function getUser() {
 }
 
 function driverLogin(){
+    setCookie("driver_assigned_vehicle", data.vehicle_assigned);
+    setCookie("driver_assigned_business", data.business_assigned);
     window.location="index.html";
 }
 

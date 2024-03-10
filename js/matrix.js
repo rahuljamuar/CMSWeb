@@ -210,6 +210,11 @@ function redirectToIndex(){
     window.location="index.html";	
 }
 
+var role = getCookie("role");
+if(role == "driver"){
+	document.getElementById("menu").style.display = 'none';
+}
+
 function myBaseURL(){
 	return "https://cms-server.azurewebsites.net/api";
 	// return "http://localhost:8080/api";

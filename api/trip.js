@@ -107,6 +107,7 @@ function getAllTrip() {
 function createTrip() {
     $('#loading').show();
     var trip_type = document.getElementById("trip_type").value;
+    var job_id = getCookie("job_id");
     if(trip_type == "Company"){
         var driver = document.getElementById("driver").value;
         var trip_date = document.getElementById("trip_date").value;
@@ -117,6 +118,7 @@ function createTrip() {
         var vehicle = document.getElementById("vehicle").value;
         
         var requestData = {
+            "job_id": job_id,
             "trip_type": trip_type,
             "driver_id": driver,
             "trip_date": trip_date,
@@ -137,6 +139,7 @@ function createTrip() {
         var vehicle = document.getElementById("vehicle").value;
 
         var requestData = {
+            "job_id": job_id,
             "trip_type": trip_type,
             "driver_id": driver,
             "trip_date": trip_date,
@@ -161,6 +164,7 @@ function createTrip() {
         var duration = document.getElementById("duration").value;
 
         var requestData = {
+            "job_id": job_id,
             "trip_type": trip_type,
             "driver_id": driver,
             "trip_date": trip_date,
@@ -477,6 +481,12 @@ async function getAllDriver() {
                 $('#driver').append( '<option value=' + data[i]["emp_id"] +'>' + data[i]["full_name"] + '</option>' );  
             }
             
+            var current_role = getCookie("role")
+            if(current_role == "driver"){
+                document.getElementById('driver').value = getCookie("emp_id");
+                document.getElementById('driver').disabled = true;
+            }
+            
         })
         .catch(error => {
             // Handle any errors that occur during the fetch request
@@ -517,6 +527,11 @@ async function getAllVehicle() {
             
             for (i = 0; i < count; i++) {
                 $('#vehicle').append( '<option value=' + data[i]["vehicle_registration_id"] +'>' + data[i]["vehicle_registration_id"] + '</option>' );  
+            }
+            var current_role = getCookie("role");
+            if(current_role == "driver"){
+                document.getElementById('vehicle').value = getCookie("driver_assigned_vehicle");
+                document.getElementById('vehicle').disabled = true;
             }
             
         })
@@ -559,6 +574,11 @@ async function getAllBusiness() {
             
             for (i = 0; i < count; i++) {
                 $('#business').append( '<option value=' + data[i]["business_id"] +'>' + data[i]["business_name"] + '</option>' );  
+            }
+            var current_role = getCookie("role");
+            if(current_role == "driver"){
+                document.getElementById('business').value = getCookie("driver_assigned_business");
+                document.getElementById('business').disabled = true;
             }
             
         })

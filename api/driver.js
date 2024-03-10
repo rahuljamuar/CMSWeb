@@ -1,8 +1,9 @@
 var baseURL = myBaseURL();
 
-async function getAllFuel() {
+
+function getAllDrivers() {
     // Define the URL of the API
-    const apiUrl = baseURL + "/fuel/";
+    const apiUrl = baseURL + "/driver/";
 
     
     // Define the headers for the request
@@ -17,7 +18,7 @@ async function getAllFuel() {
         headers: headers
     };
     // Make the API call using fetch
-    await fetch(apiUrl, requestOptions)
+    fetch(apiUrl, requestOptions)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -33,13 +34,12 @@ async function getAllFuel() {
             
             for (i = 0; i < count; i++) {
                 var current_row = [];
-                var fuel_id = encodeURIComponent(data[i]["fuel_id"]);
-                fuel_id = '<a style="color: blue;" href="edit-fuel.html?fuel_id=' + fuel_id + '">' + data[i]["fuel_id"] + '</a>' ;
-                current_row.push(fuel_id);
-                current_row.push(data[i]["refill_quantity"]);
-                current_row.push(data[i]["refill_cost"]);
-                current_row.push(data[i]["driver_id"]);
-                current_row.push(data[i]["vehicle_registration_id"]);
+                var driver_id = encodeURIComponent(data[i]["driver_id"]);
+                driver_id = '<a style="color: blue;" href="edit-driver.html?driver_id=' + driver_id + '">' + data[i]["driver_id"] + '</a>' ;
+                current_row.push(driver_id);
+                current_row.push(data[i]["vehicle_assigned"]);
+                current_row.push(data[i]["business_assigned"]);
+                current_row.push(data[i]["payment_structure"]);                
                 dataSet.push(current_row);
             }
             
@@ -53,14 +53,13 @@ async function getAllFuel() {
                 r[3] = div3;
             })
              
-            new DataTable('#fuel_table', {
+            new DataTable('#driver_table', {
                 responsive: true,
                 columns: [
-                    { title: 'Fuel ID' },
-                    { title: 'Quantity' },
-                    { title: 'Cost' },
-                    { title: 'Driver' },
-                    { title: 'Vehicle RC' }
+                    { title: 'Driver Emp ID' },
+                    { title: 'Assigned Vehicle' },
+                    { title: 'Assigned Business' },
+                    { title: 'Payment Structure' }
                 ],
                 data: dataSet
             });
@@ -73,31 +72,28 @@ async function getAllFuel() {
 }
 
 
-function createFuel() {
+function createDriver() {
     $('#loading').show();
+    var driver = document.getElementById("driver").value;    
     var vehicle = document.getElementById("vehicle").value;
-    var driver = document.getElementById("driver").value;
-    var refill_date = document.getElementById("refill_date").value;
-    var refill_time = document.getElementById("refill_time").value;
-    var quantity = document.getElementById("quantity").value;
-    var cost = document.getElementById("cost").value;
-    var current_km = document.getElementById("current_km").value;
-    var job_id = document.getElementById("job_id").value;
+    var business = document.getElementById("business").value;
+    var joining_date = document.getElementById("joining_date").value;
+    var payment_structure = document.getElementById("payment_structure").value;
+    var amount = document.getElementById("amount").value;       
+    
+    var requestData = {
+        "driver_id": driver,
+        "vehicle_assigned": vehicle,
+        "date_of_joining": joining_date,
+        "business_assigned": business,
+        "payment_structure": payment_structure,
+        "amount": amount
+    };    
+
 
     // Define the URL of the API
-    const apiUrl = baseURL + "/fuel/";
-
-    // Define the data to be sent in the request body
-    const requestData = {
-        "refill_date": refill_date,
-        "refill_time": refill_time,
-        "refill_quantity": quantity,
-        "refill_cost": cost,
-        "current_km": current_km,
-        "driver_id": driver,
-        "vehicle_registration_id": vehicle,
-        "job_id": job_id
-    };
+    const apiUrl = baseURL + "/driver/";
+    
 
     // Convert the data to JSON format
     const jsonData = JSON.stringify(requestData);
@@ -126,15 +122,9 @@ function createFuel() {
         })
         .then(data => {
             // Handle the data returned by the API
-            console.log('API Response:', data);
-            var receipt_photo =document.getElementById("receipt_photo").files[0];
-            var odometer_photo =document.getElementById("odometer_photo").files[0];
-            if(receipt_photo != null || odometer_photo != null){
-                uploadFuelDocs(data.fuel_id)
-            }else{
-                fuelAdded();
-                $('#loading').hide();                
-            }
+            console.log('API Response:', data);            
+            driverAdded();
+            $('#loading').hide();
             
         })
         .catch(error => {
@@ -144,9 +134,9 @@ function createFuel() {
         });
 }
 
-async function getAFuel(fuel_id) {
+async function getADriver(driver_id) {
     // Define the URL of the API
-    const apiUrl = baseURL + "/fuel/fuel_id/" + fuel_id;
+    const apiUrl = baseURL + "/driver/driver_id/" + driver_id;
 
     
     // Define the headers for the request
@@ -171,17 +161,16 @@ async function getAFuel(fuel_id) {
         .then(data => {
             // Handle the data returned by the API
             console.log('API Response:', data);
-            document.getElementById("fuel_id").value = data.fuel_id;
-            document.getElementById("vehicle").value = data.vehicle_registration_id;
-            document.getElementById("driver").value = data.driver_id;
-            document.getElementById("refill_date").value = data.refill_date;
-            document.getElementById("refill_time").value = data.refill_time;
-            document.getElementById("quantity").value = data.refill_quantity;
-            document.getElementById("cost").value = data.refill_cost;
-            document.getElementById("current_km").value = data.current_km;
-            var refill_date = data.refill_date.toString().split("T");
-            refill_date = refill_date[0];
-            document.getElementById("refill_date").value = refill_date;
+            document.getElementById("id").value = data.id;
+            document.getElementById("driver").value = data.driver_id;               
+            document.getElementById("business").value = data.business_assigned;     
+            document.getElementById("vehicle").value = data.vehicle_assigned;
+            document.getElementById("payment_structure").value = data.payment_structure;
+            document.getElementById("amount").value = data.amount;
+            var date_of_joining = data.date_of_joining.toString().split("T");
+            date_of_joining = date_of_joining[0];
+            document.getElementById("joining_date").value = date_of_joining;  
+            
             
         })
         .catch(error => {
@@ -191,87 +180,28 @@ async function getAFuel(fuel_id) {
 
 }
 
-function getFuelDoc(fuel_id) {
-    // Define the URL of the API
-    const apiUrl = baseURL + "/fuel/fuel_doc/" + fuel_id;
-
-    
-    // Define the headers for the request
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('email', 'rahuljamuar@hotmail.com')
-    headers.append('token', 'test')
-
-    // Define the options for the fetch request
-    const requestOptions = {
-        method: 'GET',
-        headers: headers
-    };
-    // Make the API call using fetch
-    fetch(apiUrl, requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); // Parse the JSON returned by the API
-        })
-        .then(data => {
-            // Handle the data returned by the API
-            console.log('API Response:', data);
-            if(data.receipt_photo != 'Photo not found'){
-                document.getElementById("receipt_photo_thumbnail").src = data.receipt_photo.content;
-                document.getElementById("receipt_photo_thumbnail").alt = data.receipt_photo.file_name;
-                document.getElementById("receipt_photo_display").href = data.receipt_photo.content;
-            }else{
-                document.getElementById("receipt_photo_thumbnail").src = "/img/user.png";
-                document.getElementById("receipt_photo_thumbnail").alt = "User";
-                document.getElementById("receipt_photo_display").href = "/img/user.png";
-            }
-            if(data.current_km_photo != 'Photo not found'){
-                document.getElementById("current_km_photo_thumbnail").src = data.current_km_photo.content;
-                document.getElementById("current_km_photo_thumbnail").alt = data.current_km_photo.file_name;
-                document.getElementById("current_km_photo_display").href = data.current_km_photo.content;
-            }else{
-                document.getElementById("current_km_photo_thumbnail").src = "/img/user.png";
-                document.getElementById("current_km_photo_thumbnail").alt = "User";
-                document.getElementById("current_km_photo_display").href = "/img/user.png";
-            }
-            
-          
-            
-        })
-        .catch(error => {
-            // Handle any errors that occur during the fetch request
-            console.error('There was a problem with the fetch operation:', error);
-        });
-
-}
-
-function updateFuel() {
+function updateDriver() {
     $('#loading').show();
-    var fuel_id = document.getElementById("fuel_id").value;
+    var id = document.getElementById("id").value; 
+    var driver = document.getElementById("driver").value;    
     var vehicle = document.getElementById("vehicle").value;
-    var driver = document.getElementById("driver").value;
-    var refill_date = document.getElementById("refill_date").value;
-    var refill_time = document.getElementById("refill_time").value;
-    var quantity = document.getElementById("quantity").value;
-    var cost = document.getElementById("cost").value;
-    var current_km = document.getElementById("current_km").value;
+    var business = document.getElementById("business").value;
+    var joining_date = document.getElementById("joining_date").value;
+    var payment_structure = document.getElementById("payment_structure").value;
+    var amount = document.getElementById("amount").value;       
+    
+    var requestData = {
+        "id": id,
+        "driver_id": driver,
+        "vehicle_assigned": vehicle,
+        "date_of_joining": joining_date,
+        "business_assigned": business,
+        "payment_structure": payment_structure,
+        "amount": amount
+    };
 
     // Define the URL of the API
-    const apiUrl = baseURL + "/fuel/";
-
-    // Define the data to be sent in the request body
-    const requestData = {
-        "fuel_id": fuel_id,
-        "refill_date": refill_date,
-        "refill_time": refill_time,
-        "refill_quantity": quantity,
-        "refill_cost": cost,
-        "current_km": current_km,
-        "driver_id": driver,
-        "vehicle_registration_id": vehicle
-    };
+    const apiUrl = baseURL + "/driver/";
     
     // Convert the data to JSON format
     const jsonData = JSON.stringify(requestData);
@@ -304,15 +234,10 @@ function updateFuel() {
         .then(data => {
             // Handle the data returned by the API
             console.log('API Response:', data);
-            var receipt_photo =document.getElementById("receipt_photo").files[0];
-            var odometer_photo =document.getElementById("odometer_photo").files[0];
-            if(receipt_photo != null || odometer_photo != null){
-                uploadFuelDocs(data.fuel_id)
-            }
             
             $.gritter.add({
-                title:	'Fuel Updated',
-                text:	'Fuel is updated successfully!',
+                title:	'Driver Updated',
+                text:	'Driver is updated successfully!',
                 sticky: false
             });
             $('.gritter-item').css('background-color','darkgreen');	
@@ -323,60 +248,6 @@ function updateFuel() {
             // Handle any errors that occur during the fetch request
             console.error('There was a problem with the fetch operation:', error);
             $('#loading').hide();
-        });
-}
-
-function uploadFuelDocs(fuel_id) {
-    var receipt_photo =document.getElementById("receipt_photo").files[0];
-    var odometer_photo =document.getElementById("odometer_photo").files[0];
-
-    // Define the URL of the API
-    const apiUrl = baseURL + "/fuel/docs";
-
-    // Define the data to be sent in the request body
-    const formdata = new FormData();
-    if(receipt_photo != null){
-        formdata.append("receipt_photo", receipt_photo);
-    }
-    if(odometer_photo != null){
-        formdata.append("current_km_photo", odometer_photo);
-    }
-
-    
-    
-    formdata.append("fuel_id", fuel_id);
-
-
-    // Define the headers for the request
-    const headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-    headers.append('email', 'rahuljamuar@hotmail.com')
-    headers.append('token', 'test')
-
-    // Define the options for the fetch request
-    const requestOptions = {
-        method: 'PUT',
-        headers: headers,
-        body: formdata
-    };
-
-    // Make the API call using fetch
-    fetch(apiUrl, requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');                
-            }
-            return response.json(); // Parse the JSON returned by the API
-        })
-        .then(data => {
-            // Handle the data returned by the API
-            console.log('API Response:', data);             
-            fuelAdded();    
-            $('#loading').hide();       
-        })
-        .catch(error => {
-            // Handle any errors that occur during the fetch request
-            console.error('There was a problem with the fetch operation:', error);            
         });
 }
 
@@ -412,12 +283,6 @@ async function getAllDriver() {
             
             for (i = 0; i < count; i++) {
                 $('#driver').append( '<option value=' + data[i]["emp_id"] +'>' + data[i]["full_name"] + '</option>' );  
-            }
-            
-            var current_role = getCookie("role")
-            if(current_role == "driver"){
-                document.getElementById('driver').value = getCookie("emp_id");
-                document.getElementById('driver').disabled = true;
             }
             
         })
@@ -461,10 +326,47 @@ async function getAllVehicle() {
             for (i = 0; i < count; i++) {
                 $('#vehicle').append( '<option value=' + data[i]["vehicle_registration_id"] +'>' + data[i]["vehicle_registration_id"] + '</option>' );  
             }
-            var current_role = getCookie("role");
-            if(current_role == "driver"){
-                document.getElementById('vehicle').value = getCookie("driver_assigned_vehicle");
-                document.getElementById('vehicle').disabled = true;
+            
+        })
+        .catch(error => {
+            // Handle any errors that occur during the fetch request
+            console.error('There was a problem with the fetch operation:', error);
+        });
+
+}
+
+async function getAllBusiness() {
+    // Define the URL of the API
+    const apiUrl = baseURL + "/business/";
+
+    
+    // Define the headers for the request
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('email', 'rahuljamuar@hotmail.com')
+    headers.append('token', 'test')
+
+    // Define the options for the fetch request
+    const requestOptions = {
+        method: 'GET',
+        headers: headers
+    };
+    // Make the API call using fetch
+    await fetch(apiUrl, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the JSON returned by the API
+        })
+        .then(data => {
+            // Handle the data returned by the API
+            console.log('API Response:', data);
+            var count = Object.keys(data).length;
+            console.log(count);            
+            
+            for (i = 0; i < count; i++) {
+                $('#business').append( '<option value=' + data[i]["business_id"] +'>' + data[i]["business_name"] + '</option>' );  
             }
             
         })
@@ -475,11 +377,11 @@ async function getAllVehicle() {
 
 }
 
-function deleteFuel() {
+function deleteDriver() {
     $('#loading').show();
-    var emp_id = parseInt(document.getElementById("emp_id").value);
+    var driver_id = parseInt(document.getElementById("driver_id").value);
     // Define the URL of the API
-    const apiUrl = baseURL + "/vehicle/emp_id/" + emp_id;
+    const apiUrl = baseURL + "/driver/driver_id/" + driver_id;
 
     
     // Define the headers for the request
@@ -517,6 +419,6 @@ function deleteFuel() {
 
 }
 
-function fuelAdded(){
-    $('#fuel_added').modal('show');
+function driverAdded(){
+    $('#confirmation').modal('show');
 }
