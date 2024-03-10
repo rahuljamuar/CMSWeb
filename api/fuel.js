@@ -383,7 +383,11 @@ function uploadFuelDocs(fuel_id) {
 async function getAllDriver() {
     // Define the URL of the API
     const apiUrl = baseURL + "/profile/driver/";
-
+    var role = getCookie("role");
+    if(role == "driver"){
+        document.getElementById('fuel_fluid').style.display = 'none';
+        return;
+    }
     
     // Define the headers for the request
     const headers = new Headers();
