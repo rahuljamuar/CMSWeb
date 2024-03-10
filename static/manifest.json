@@ -1,0 +1,20 @@
+{
+  "background_color": "#ffffff",
+  "description": "CMS - Cab Management Services",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "CMS - Cab Management System",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "CMS",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "img/favicon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "id": "cms"
+}
