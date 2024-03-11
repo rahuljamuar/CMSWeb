@@ -187,6 +187,7 @@ function getCookie(cname) {
 }
 
 document.getElementById("user_name").innerHTML = "Welcome " + getCookie("full_name");
+document.getElementById("user_name_mobile").innerHTML = "&nbsp;Welcome " + getCookie("full_name");
 
 var user = getCookie("emp_id");   
 		
