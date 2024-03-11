@@ -105,9 +105,14 @@ function getAllTrip() {
 
 
 function createTrip() {
+    const trip_validate = validateTrip();
+    if(trip_validate == false){
+        return;
+    }
     $('#loading').show();
     var trip_type = document.getElementById("trip_type").value;
     var job_id = getCookie("job_id");
+    
     if(trip_type == "Company"){
         var driver = document.getElementById("driver").value;
         var trip_date = document.getElementById("trip_date").value;
@@ -633,4 +638,209 @@ function deleteTrip() {
 
 function tripStarted(){
     $('#confirmation').modal('show');
+}
+
+function validateTrip(){
+    var trip_type = document.getElementById("trip_type").value;
+    if(trip_type == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please select trip type',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(trip_type == "Company"){
+        var driver = document.getElementById("driver").value;
+        var trip_date = document.getElementById("trip_date").value;
+        var trip_start_time = document.getElementById("trip_start_time").value;
+        var trip_count = document.getElementById("trip_count").value;       
+        var business = document.getElementById("business").value;        
+        var vehicle = document.getElementById("vehicle").value;
+
+        if(vehicle == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select vehicle number',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(driver == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select driver',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(trip_date == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select trip date',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(trip_start_time == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select trip start time',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(trip_count == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please enter trip count',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(business == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select business',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        
+        
+    }
+    else if(trip_type == "Ola" || trip_type == "Uber" || trip_type == "Personal"){
+        var driver = document.getElementById("driver").value;
+        var trip_date = document.getElementById("trip_date").value;
+        var trip_start_time = document.getElementById("trip_start_time").value;
+        var total_earning = document.getElementById("total_earning").value;
+        var trip_count = document.getElementById("trip_count").value;   
+        var vehicle = document.getElementById("vehicle").value;
+
+        if(vehicle == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select vehicle number',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(driver == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select driver',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(trip_date == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select trip date',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(trip_start_time == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select trip start time',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(total_earning == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please enter total earning',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(trip_count == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please enter trip count',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+    }
+    else if(trip_type == "Rental"){
+        var driver = document.getElementById("driver").value;
+        var trip_date = document.getElementById("trip_date").value;
+        var trip_start_time = document.getElementById("trip_start_time").value;
+        var total_earning = document.getElementById("total_earning").value;
+        var trip_count = document.getElementById("trip_count").value;  
+        var vehicle = document.getElementById("vehicle").value;
+
+        if(vehicle == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select vehicle number',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(driver == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select driver',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(trip_date == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select trip date',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(trip_start_time == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please select trip start time',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(total_earning == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please enter total earning',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+        if(trip_count == ""){
+            $.gritter.add({
+                title:	'Failed',
+                text:	'Please enter trip count',
+                sticky: false
+            });
+            $('.gritter-item').css('background-color','red');
+            return false;
+        }
+    }
+    return true;
 }

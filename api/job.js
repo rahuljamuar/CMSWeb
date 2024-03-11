@@ -84,6 +84,10 @@ function getAllJob() {
 
 
 function createJob() {
+    const job_validate = validateJob();
+    if(job_validate == false){
+        return;
+    }
     $('#loading').show();
 
     var driver = document.getElementById("driver").value;
@@ -152,6 +156,10 @@ function createJob() {
 }
 
 function endJob() {
+    const job_end_validate = validateEndJob();
+    if(job_end_validate == false){
+        return;
+    }
     $('#loading').show();
     var job_id = document.getElementById("job_id").value;
     var job_end_date = document.getElementById("job_end_date").value;
@@ -822,6 +830,176 @@ function deleteJob() {
             $('#loading').hide();
         });
 
+}
+
+function validateJob(){
+    var driver = document.getElementById("driver").value;
+    var job_start_date = document.getElementById("job_start_date").value;
+    var job_start_time = document.getElementById("job_start_time").value;
+    var start_km = document.getElementById("start_km").value;           
+    var vehicle = document.getElementById("vehicle").value;
+    var start_odometer_photo =document.getElementById("start_odometer_photo").files[0];
+    var driver_selfie =document.getElementById("driver_selfie").files[0];
+
+    if(vehicle == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please select vehicle number',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(driver == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please select driver',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(job_start_date == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please select job start date',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(job_start_time == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please select job start time',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(start_km == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please enter start km',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(start_odometer_photo == null){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please upload photo of odometer',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(driver_selfie == null){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please upload your selfie',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    return true;
+}
+
+function validateEndJob(){
+    var job_end_date = document.getElementById("job_end_date").value;
+    var job_end_time = document.getElementById("job_end_time").value;
+    var end_km = document.getElementById("end_km").value;
+    var end_odometer_photo =document.getElementById("end_odometer_photo").files[0];
+    var front_photo =document.getElementById("front_photo").files[0];
+    var left_photo =document.getElementById("left_photo").files[0];
+    var back_photo =document.getElementById("back_photo").files[0];
+    var right_photo =document.getElementById("right_photo").files[0];
+    var video =document.getElementById("video").files[0];
+
+    if(job_end_date == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please select job end date',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(job_end_time == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please select job end time',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(end_km == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please enter end km',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(end_odometer_photo == null){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please upload photo of odometer',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(front_photo == null){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please upload front photo of the vehicle',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(left_photo == null){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please upload left photo of the vehicle',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(back_photo == null){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please upload back photo of the vehicle',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(right_photo == null){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please upload right photo of the vehicle',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(video == null){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please upload video of the vehicle',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    return true;
 }
 
 function jobStarted(){

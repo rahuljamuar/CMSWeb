@@ -3,7 +3,10 @@ var baseURL = myBaseURL();
 async function getAllFuel() {
     // Define the URL of the API
     const apiUrl = baseURL + "/fuel/";
-
+    if(role == "driver"){
+        document.getElementById('fuel_fluid').style.display = 'none';
+        return;
+    }
     
     // Define the headers for the request
     const headers = new Headers();
@@ -74,6 +77,10 @@ async function getAllFuel() {
 
 
 function createFuel() {
+    const fuel_validate = validateFuel();
+    if(fuel_validate == false){
+        return;
+    }
     $('#loading').show();
     var vehicle = document.getElementById("vehicle").value;
     var driver = document.getElementById("driver").value;
@@ -382,12 +389,7 @@ function uploadFuelDocs(fuel_id) {
 
 async function getAllDriver() {
     // Define the URL of the API
-    const apiUrl = baseURL + "/profile/driver/";
-    var role = getCookie("role");
-    if(role == "driver"){
-        document.getElementById('fuel_fluid').style.display = 'none';
-        return;
-    }
+    const apiUrl = baseURL + "/profile/driver/";    
     
     // Define the headers for the request
     const headers = new Headers();
@@ -519,6 +521,101 @@ function deleteFuel() {
             $('#loading').hide();
         });
 
+}
+
+function validateFuel(){
+    var vehicle = document.getElementById("vehicle").value;
+    var driver = document.getElementById("driver").value;
+    var refill_date = document.getElementById("refill_date").value;
+    var refill_time = document.getElementById("refill_time").value;
+    var quantity = document.getElementById("quantity").value;
+    var cost = document.getElementById("cost").value;
+    var current_km = document.getElementById("current_km").value;
+    var receipt_photo =document.getElementById("receipt_photo").files[0];
+    var odometer_photo =document.getElementById("odometer_photo").files[0];
+
+    if(vehicle == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please select vehicle number',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(driver == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please select driver',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(refill_date == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please select refill date',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(refill_time == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please select refill time',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(quantity == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please enter quantity',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(cost == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please enter cost',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(current_km == ""){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please enter current km',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(receipt_photo == null){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please upload receipt photo',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    if(odometer_photo == null){
+        $.gritter.add({
+            title:	'Failed',
+            text:	'Please upload odometer photo',
+            sticky: false
+        });
+        $('.gritter-item').css('background-color','red');
+        return false;
+    }
+    return true;
 }
 
 function fuelAdded(){
