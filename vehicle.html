@@ -276,6 +276,22 @@
   <script src="js/matrix.form_validation.js"></script>
   <script src="js/jquery.peity.min.js"></script>
   <script src="api/vehicle.js"></script>
+  <script>
+    var date = new Date();
+    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    $('#registration_date').datepicker({
+      dateFormat: 'yy-mm-dd'
+    });
+    $('#registration_date').datepicker('setDate', today);
+    $('#insurance_renewal_date').datepicker({
+      dateFormat: 'yy-mm-dd'
+    });
+    $('#insurance_renewal_date').datepicker('setDate', today);
+    $('#insurance_expiry_date').datepicker({
+      dateFormat: 'yy-mm-dd'
+    });
+    $('#insurance_expiry_date').datepicker('setDate', today);
+  </script>
 </body>
 
 </html>
