@@ -31,6 +31,7 @@ function getUser() {
     fetch(apiUrl, requestOptions)
         .then(response => {
             if (!response.ok) {
+                $('#loading').hide();
                 document.getElementById("incorrect_id").innerHTML = "Incorrect user name and/or password!";
                 throw new Error('Network response was not ok');
             }
@@ -72,6 +73,7 @@ function getUser() {
             
         })
         .catch(error => {
+            $('#loading').hide();
             // Handle any errors that occur during the fetch request
             console.error('There was a problem with the fetch operation:', error);
         });
