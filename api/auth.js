@@ -1,7 +1,9 @@
 var baseURL = myBaseURL();
 
 function getUser() {
-    // Define the URL of the API
+
+    $('#loading').show();
+    document.getElementById("incorrect_id").innerHTML = "";
     const apiUrl = baseURL + "/auth/mobile_number";
 
     var mobile_number = document.getElementById("mobile_number").value
@@ -29,6 +31,7 @@ function getUser() {
     fetch(apiUrl, requestOptions)
         .then(response => {
             if (!response.ok) {
+                document.getElementById("incorrect_id").innerHTML = "Incorrect user name and/or password!";
                 throw new Error('Network response was not ok');
             }
             return response.json(); // Parse the JSON returned by the API
@@ -36,18 +39,25 @@ function getUser() {
         .then(data => {
             // Handle the data returned by the API
             console.log('API Response:', data);
+            $('#loading').hide();
             setCookie("emp_id", data.emp_id);
             setCookie("full_name", data.full_name);
             setCookie("email_id", data.email_id);
             var role;
             if(data.is_driver == true && data.is_manager == true){
                 role = "both";
+                if('vehicle_assigned' in data && 'business_assigned' in data){
+                    setCookie("driver_assigned_vehicle", data.vehicle_assigned);
+                    setCookie("driver_assigned_business", data.business_assigned);
+                }                
             }else if(data.is_manager == true){
                 role = "manager";
             }else if(data.is_driver == true){                
                 role = "driver";
-                setCookie("driver_assigned_vehicle", data.vehicle_assigned);
-                setCookie("driver_assigned_business", data.business_assigned);
+                if('vehicle_assigned' in data && 'business_assigned' in data){
+                    setCookie("driver_assigned_vehicle", data.vehicle_assigned);
+                    setCookie("driver_assigned_business", data.business_assigned);
+                }
             }
             setCookie("role", role);
             if(role == "both"){
@@ -69,11 +79,11 @@ function getUser() {
 }
 
 function driverLogin(){
-    setCookie("driver_assigned_vehicle", data.vehicle_assigned);
-    setCookie("driver_assigned_business", data.business_assigned);
     window.location="index.html";
 }
 
 function managerLogin(){
+    setCookie("driver_assigned_vehicle", "");
+    setCookie("driver_assigned_business", "");
     window.location="manager-dashboard.html";
 }

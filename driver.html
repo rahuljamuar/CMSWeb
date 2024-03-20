@@ -236,6 +236,14 @@
   <script src="js/matrix.form_validation.js"></script>
   <script src="js/jquery.peity.min.js"></script>
   <script src="api/driver.js"></script>
+  <script>
+    var date = new Date();
+    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    $('#joining_date').datepicker({
+      dateFormat: 'yy-mm-dd'
+    });
+    $('#joining_date').datepicker('setDate', today);
+  </script>
 </body>
 
 </html>
