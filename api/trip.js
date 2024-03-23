@@ -9,6 +9,7 @@ $("#trip_type").change(function () {
         $("#city_div").hide();
         $("#duration_div").hide();
         $("#business_div").show();
+        $("#is_escort_div").show();
         $("#company_trip_number_div").show();
     }
     else if(this.value == "Ola" || this.value == "Uber" || this.value == "Personal"){
@@ -18,6 +19,7 @@ $("#trip_type").change(function () {
         $("#business_div").hide();
         $("#duration_div").hide();
         $("#company_trip_number_div").hide();
+        $("#is_escort_div").hide();
     }
     else if(this.value == "Rental"){
         $("#total_earning_div").show();
@@ -27,6 +29,7 @@ $("#trip_type").change(function () {
         $("#duration_div").show();
         $("#city_div").show();
         $("#company_trip_number_div").hide();
+        $("#is_escort_div").hide();
     }
 });
 
@@ -125,6 +128,10 @@ function createTrip() {
         var business = document.getElementById("business").value;        
         var vehicle = document.getElementById("vehicle").value;
         var company_trip_number = document.getElementById("company_trip_number").value;
+        var is_escort = 0;
+        if (document.getElementById('is_escort').checked) {
+            is_escort = 1;
+        }
         
         var requestData = {
             "job_id": job_id,
@@ -135,7 +142,8 @@ function createTrip() {
             "trip_count": trip_count,
             "business_id": business,
             "vehicle_registration_id": vehicle,
-            "company_trip_number": company_trip_number
+            "company_trip_number": company_trip_number,
+            "is_escort": is_escort
         };
     }
     else if(trip_type == "Ola" || trip_type == "Uber" || trip_type == "Personal"){
@@ -273,6 +281,9 @@ async function getATrip(trip_id) {
                 document.getElementById("business").value = data.business_id;  
                 document.getElementById("vehicle").value = data.vehicle_registration_id;
                 document.getElementById("company_trip_number").value = data.company_trip_number;
+                $('#is_escort').prop('checked',data.is_escort);
+                $.uniform.update('#is_escort');
+
                 $("#total_earning_div").hide();
                 $("#cash_div").hide();
                 $("#upi_div").hide();
@@ -280,6 +291,7 @@ async function getATrip(trip_id) {
                 $("#duration_div").hide();
                 $("#business_div").show();
                 $("#company_trip_number_div").show();
+                $("#is_escort_div").show();
             }
             else if(data.trip_type == "Ola" || data.trip_type == "Uber" || data.trip_type == "Personal"){
                 document.getElementById("driver").value = data.driver_id;
@@ -298,6 +310,7 @@ async function getATrip(trip_id) {
                 $("#business_div").hide();
                 $("#duration_div").hide();
                 $("#company_trip_number_div").hide();
+                $("#is_escort_div").hide();
             }
             else if(data.trip_type == "Rental"){
                 document.getElementById("driver").value = data.driver_id;
@@ -318,6 +331,7 @@ async function getATrip(trip_id) {
                 $("#duration_div").show();
                 $("#city_div").show();
                 $("#company_trip_number_div").hide();
+                $("#is_escort_div").hide();$("#is_escort").hide();
             }
             
             
@@ -343,6 +357,10 @@ function updateTrip() {
         var business = document.getElementById("business").value;        
         var vehicle = document.getElementById("vehicle").value;
         var company_trip_number = document.getElementById("company_trip_number").value;
+        var is_escort = 0;
+        if (document.getElementById('is_escort').checked) {
+            is_escort = 1;
+        }
         
         var requestData = {
             "trip_id": trip_id,
@@ -354,7 +372,8 @@ function updateTrip() {
             "trip_count": trip_count,
             "business_id": business,
             "vehicle_registration_id": vehicle,
-            "company_trip_number": company_trip_number
+            "company_trip_number": company_trip_number,
+            "is_escort": is_escort
         };
     }
     else if(trip_type == "Ola" || trip_type == "Uber" || trip_type == "Personal"){

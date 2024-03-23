@@ -155,6 +155,12 @@
                     <input type="text" class="span11" placeholder="Trip Number" id="company_trip_number"/>
                   </div>
                 </div>
+                <div class="control-group" id="is_escort_div">
+                  <label class="control-label">Escort Trip:</label>
+                  <div class="controls">                    
+                      <input type="checkbox" id="is_escort" />                    
+                  </div>
+                </div>
                 <div class="control-group">
                   <label class="control-label">Trip Date:</label>
                   <div class="controls">
@@ -251,6 +257,7 @@
         $("#duration_div").hide();
         $("#business_div").hide();
         $("#company_trip_number_div").hide();
+        $("#is_escort_div").hide();
         $('#loading').show();        
         await getAllDriver()
         await getAllVehicle();
