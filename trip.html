@@ -149,6 +149,12 @@
                     </select>    
                   </div>
                 </div>
+                <div class="control-group" id="company_trip_number_div">
+                  <label class="control-label">Trip Number:</label>
+                  <div class="controls">
+                    <input type="text" class="span11" placeholder="Trip Number" value="1" id="company_trip_number"/>
+                  </div>
+                </div>
                 <div class="control-group">
                   <label class="control-label">Trip Date:</label>
                   <div class="controls">
@@ -160,12 +166,6 @@
                   <div class="controls">
                     <input type="text" class="timepicker span11" id="trip_start_time">                    
                 </div>
-                <!-- <div class="control-group">
-                  <label class="control-label">Trip End Time</label>
-                  <div class="controls">
-                    <input type="text" class="timepicker span11" id="trip_end_time">
-                  </div>
-                </div> -->
                 <div class="control-group" id="total_earning_div">
                   <label class="control-label">Total Earning:</label>
                   <div class="controls">
@@ -250,7 +250,8 @@
         $("#city_div").hide();
         $("#duration_div").hide();
         $("#business_div").hide();
-        $('#loading').show();
+        $("#company_trip_number_div").hide();
+        $('#loading').show();        
         await getAllDriver()
         await getAllVehicle();
         await getAllBusiness();

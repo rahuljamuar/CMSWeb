@@ -358,6 +358,7 @@ function getJobPhoto(job_id) {
             if(data.vehicle_video != 'Video not found'){
                 // document.getElementById("video_thumbnail").src = data.vehicle_video.content;
                 // document.getElementById("video_thumbnail").alt = data.vehicle_video.file_name;
+                document.getElementById("video_display").innerHTML  = "Download Video";
                 document.getElementById("video_display").href = data.vehicle_video.content;
                 document.getElementById("video_display").download  = data.vehicle_video.file_name;
                 // var video = document.getElementById("video_display");

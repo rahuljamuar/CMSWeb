@@ -9,6 +9,7 @@ $("#trip_type").change(function () {
         $("#city_div").hide();
         $("#duration_div").hide();
         $("#business_div").show();
+        $("#company_trip_number_div").show();
     }
     else if(this.value == "Ola" || this.value == "Uber" || this.value == "Personal"){
         $("#total_earning_div").show();
@@ -16,6 +17,7 @@ $("#trip_type").change(function () {
         $("#upi_div").show();
         $("#business_div").hide();
         $("#duration_div").hide();
+        $("#company_trip_number_div").hide();
     }
     else if(this.value == "Rental"){
         $("#total_earning_div").show();
@@ -24,6 +26,7 @@ $("#trip_type").change(function () {
         $("#business_div").hide();
         $("#duration_div").show();
         $("#city_div").show();
+        $("#company_trip_number_div").hide();
     }
 });
 
@@ -121,6 +124,7 @@ function createTrip() {
         var trip_count = document.getElementById("trip_count").value;       
         var business = document.getElementById("business").value;        
         var vehicle = document.getElementById("vehicle").value;
+        var company_trip_number = document.getElementById("company_trip_number").value;
         
         var requestData = {
             "job_id": job_id,
@@ -130,7 +134,8 @@ function createTrip() {
             "trip_start_time": trip_start_time,
             "trip_count": trip_count,
             "business_id": business,
-            "vehicle_registration_id": vehicle
+            "vehicle_registration_id": vehicle,
+            "company_trip_number": company_trip_number
         };
     }
     else if(trip_type == "Ola" || trip_type == "Uber" || trip_type == "Personal"){
@@ -267,12 +272,14 @@ async function getATrip(trip_id) {
                 document.getElementById("trip_count").value = data.trip_count;
                 document.getElementById("business").value = data.business_id;  
                 document.getElementById("vehicle").value = data.vehicle_registration_id;
+                document.getElementById("company_trip_number").value = data.company_trip_number;
                 $("#total_earning_div").hide();
                 $("#cash_div").hide();
                 $("#upi_div").hide();
                 $("#city_div").hide();
                 $("#duration_div").hide();
                 $("#business_div").show();
+                $("#company_trip_number_div").show();
             }
             else if(data.trip_type == "Ola" || data.trip_type == "Uber" || data.trip_type == "Personal"){
                 document.getElementById("driver").value = data.driver_id;
@@ -290,6 +297,7 @@ async function getATrip(trip_id) {
                 $("#city_div").hide();
                 $("#business_div").hide();
                 $("#duration_div").hide();
+                $("#company_trip_number_div").hide();
             }
             else if(data.trip_type == "Rental"){
                 document.getElementById("driver").value = data.driver_id;
@@ -309,6 +317,7 @@ async function getATrip(trip_id) {
                 $("#business_div").hide();
                 $("#duration_div").show();
                 $("#city_div").show();
+                $("#company_trip_number_div").hide();
             }
             
             
@@ -333,6 +342,7 @@ function updateTrip() {
         var trip_count = document.getElementById("trip_count").value;       
         var business = document.getElementById("business").value;        
         var vehicle = document.getElementById("vehicle").value;
+        var company_trip_number = document.getElementById("company_trip_number").value;
         
         var requestData = {
             "trip_id": trip_id,
@@ -343,7 +353,8 @@ function updateTrip() {
             "trip_end_time": trip_end_time,
             "trip_count": trip_count,
             "business_id": business,
-            "vehicle_registration_id": vehicle
+            "vehicle_registration_id": vehicle,
+            "company_trip_number": company_trip_number
         };
     }
     else if(trip_type == "Ola" || trip_type == "Uber" || trip_type == "Personal"){
