@@ -75,6 +75,7 @@ function createBusiness() {
     var business_name = document.getElementById("business_name").value;
     var registration_date = document.getElementById("registration_date").value;
     var per_trip_cost = document.getElementById("per_trip_cost").value;
+    var escort_trip_cost = document.getElementById("escort_trip_cost").value;
     var assigned_driver = document.getElementById("assigned_driver").value;
     var assigned_vehicle = document.getElementById("assigned_vehicle").value;
 
@@ -86,6 +87,7 @@ function createBusiness() {
         "business_name": business_name,
         "registration_date": registration_date,
         "per_trip_cost": per_trip_cost,
+        "escort_trip_cost": escort_trip_cost,
         "driver_id": assigned_driver,
         "vehicle_registration_id": assigned_vehicle
     };
@@ -162,6 +164,7 @@ async function getABusiness(business_id) {
             document.getElementById("business_id").value = data.business_id;
             document.getElementById("registration_date").value = registration_date;
             document.getElementById("per_trip_cost").value = data.per_trip_cost;
+            document.getElementById("escort_trip_cost").value = data.escort_trip_cost;
             document.getElementById("assigned_driver").value = data.driver_id;
             document.getElementById("assigned_vehicle").value = data.vehicle_registration_id;
             
@@ -179,6 +182,7 @@ function updateBusiness() {
     var business_name = document.getElementById("business_name").value;
     var registration_date = document.getElementById("registration_date").value;
     var per_trip_cost = document.getElementById("per_trip_cost").value;
+    var escort_trip_cost = document.getElementById("escort_trip_cost").value;
     var assigned_driver = document.getElementById("assigned_driver").value;
     var assigned_vehicle = document.getElementById("assigned_vehicle").value;
 
@@ -191,6 +195,7 @@ function updateBusiness() {
         "business_name": business_name,
         "registration_date": registration_date,
         "per_trip_cost": per_trip_cost,
+        "escort_trip_cost": escort_trip_cost,
         "driver_id": assigned_driver,
         "vehicle_registration_id": assigned_vehicle
     };

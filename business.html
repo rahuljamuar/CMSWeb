@@ -149,13 +149,17 @@
                   </div>
                 </div>
                 <div class="control-group">
+                  <label class="control-label">Escort Trip Cost:</label>
+                  <div class="controls">
+                    <input type="number" class="span11" placeholder="Escort Trip Cost" id="escort_trip_cost" />
+                  </div>
+                </div>
+                <div class="control-group">
                   <label class="control-label">Assigned Driver:</label>
                   <div class="controls">
                     <select class="span11" id="assigned_driver">
                       <option value="">-Select-</option>
                     </select>
-                    <span style="left: 93%; position: absolute;"><i class="icon-2x icon-info-sign tooltip1"><span
-                          class="tooltiptext" id="driver_details">Selected driver details:</span></i></span>
                   </div>
                 </div>
                 <div class="control-group">
@@ -164,8 +168,8 @@
                     <select class="span11" id="assigned_vehicle">
                       <option value="">-Select-</option>
                     </select>
-                    <span style="left: 93%; position: absolute;"><i class="icon-2x icon-info-sign tooltip1"><span
-                          class="tooltiptext" id="vehicle_details">Selected vehicle details:</span></i></span>
+                    <!-- <span style="left: 93%; position: absolute;"><i class="icon-2x icon-info-sign tooltip1"><span
+                          class="tooltiptext" id="vehicle_details">Selected vehicle details:</span></i></span> -->
                   </div>
                 </div>
                 <div class="form-actions">
@@ -220,6 +224,14 @@
   <script src="js/matrix.form_validation.js"></script>
   <script src="js/jquery.peity.min.js"></script>
   <script src="api/business.js"></script>
+  <script>
+    var date = new Date();
+    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    $('#registration_date').datepicker({
+      dateFormat: 'yy-mm-dd'
+    });
+    $('#registration_date').datepicker('setDate', today);
+  </script>
 
 </body>
 
